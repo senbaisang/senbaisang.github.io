@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "CoolKimJoonHand";
+  src: url("我字酷金俊手涂字.woff2") format("woff2"),
+       url("我字酷金俊手涂字.woff") format("woff"),
+       url("我字酷金俊手涂字.ttf") format("truetype"),
+       url("我字酷金俊手涂字.eot") format("embedded-opentype"),
+       url("我字酷金俊手涂字.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}

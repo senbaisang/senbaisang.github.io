@@ -1,0 +1,181 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+    <meta name="author" content="Sally">
+    
+    <meta name="description" content="rails中的关联关系
+belongs_to
+has_many
+has_one
+
+一般在模型中，定义表间关系eg:
+
+一个案例是属于户主的，也是属于工人和监理的；同时，一个案例有很多个案例细节
+
+123456class Decoratingcase &amp;lt; ActiveRecord::Base  ">
+    
+    
+
+    
+    
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>rails中的关联关系 | senbaisang · cooooooooder</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+
+    <!-- Javascript -->
+    <script src="/js/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery.backstretch.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/headroom.min.js"></script>
+    <script src="/js/jquery.headroom.min.js"></script>
+    <script src="/js/common.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://senbaisang.github.io" title="senbaisang">senbaisang</a>
+            </div>
+
+            <div role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <p class="navbar-text pull-right">cooooooooder</p>
+
+                <ul class="nav navbar-nav">
+                    
+                    <li id="nav-index"><a href="/">首页</a></li>
+                    
+                    <li id="nav-archives"><a href="/archives">归档</a></li>
+                    
+                    <li id="nav-tags"><a href="/tags">标签</a></li>
+                    
+                    <li id="nav-categories"><a href="/categories">分类</a></li>
+                    
+                    <li id="nav-curriculumvitae"><a href="/curriculumvitae">关于</a></li>
+                    
+                    <li id="nav-links"><a href="/links">链接</a></li>
+                    
+                    <li id="nav-resources"><a href="/resources">资源</a></li>
+                    
+
+                    <li><a href="https://github.com/senbaisang" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+    var backRoot = "/images/background/";
+    var backArray = [ "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg",  ];
+
+    $(function() {
+        // page-id...
+        var pageId = "2015/11/27/rails中的关联关系/";
+        pageId = pageId.substr(0, pageId.indexOf("/"));
+        if(pageId === "") pageId = "index";
+
+        $("#nav-" + pageId).addClass("active");
+    });
+    </script>
+
+
+  <article class="post container">
+    <div class="well post-body first-post last-post">
+        <h1>rails中的关联关系</h1>
+
+        <div class="time-info">
+发表于:<time datetime="2015-11-27T07:08:23.000Z" itemprop="datePublished">2015-11-27</time>，更新于:<time datetime="2017-08-26T14:04:16.000Z" itemprop="dateModified">2017-08-26</time>，By <a href="http://senbaisang.github.io" title="Sally">Sally</a>
+        </div>
+
+        <div class="post-body-inner">
+            <div id="toc" class="toc-article well">
+                <strong class="toc-title">大纲</strong>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#rails中的关联关系"><span class="toc-number">1.</span> <span class="toc-text">rails中的关联关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一般在模型中，定义表间关系"><span class="toc-number">2.</span> <span class="toc-text">一般在模型中，定义表间关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#那，各个模型之间的查询就可以简单的表示为如下的形式："><span class="toc-number">3.</span> <span class="toc-text">那，各个模型之间的查询就可以简单的表示为如下的形式：</span></a></li></ol>
+            </div>
+
+            <h2 id="rails中的关联关系">rails中的关联关系</h2><ol>
+<li>belongs_to</li>
+<li>has_many</li>
+<li>has_one</li>
+</ol>
+<h2 id="一般在模型中，定义表间关系">一般在模型中，定义表间关系</h2><p>eg:</p>
+<ul>
+<li>一个案例是属于户主的，也是属于工人和监理的；<br>同时，一个案例有很多个案例细节</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Decoratingcase</span> <span class="inheritance">&lt; <span class="parent">ActiveRecord::Base</span></span></span></span><br><span class="line">  belongs_to <span class="symbol">:householder</span></span><br><span class="line">  belongs_to <span class="symbol">:foreman</span></span><br><span class="line">  belongs_to <span class="symbol">:supervisor</span></span><br><span class="line">  has_many <span class="symbol">:decorating_case_details</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>一个案例细节属于某个案例，也属于某个案例阶段<br>同时，一个案例细节包含很多个细节图片</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DecoratingCaseDetail</span> <span class="inheritance">&lt; <span class="parent">ActiveRecord::Base</span></span></span></span><br><span class="line">  belongs_to <span class="symbol">:decorating_case</span></span><br><span class="line">  belongs_to <span class="symbol">:decorating_case_stage</span></span><br><span class="line">  has_many <span class="symbol">:decorating_case_images</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>细节图片呢，就是属于案例细节的</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DecoratingCaseImage</span> <span class="inheritance">&lt; <span class="parent">ActiveRecord::Base</span></span></span></span><br><span class="line">  belongs_to <span class="symbol">:decorating_case_detail</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h2 id="那，各个模型之间的查询就可以简单的表示为如下的形式：">那，各个模型之间的查询就可以简单的表示为如下的形式：</h2><ul>
+<li>根据案例细节查找案例阶段的名字: 某个案例细节只属于一个案例阶段 （try()方法确保不会出现找不出数据而报错）</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decorating_case_detail.decorating_case_stage.try(name)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>已知案例细节查找该案例的施工地址</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decorating_case_detail.decorating_case.address</span><br></pre></td></tr></table></figure>
+<ul>
+<li>已知案例细节，找出该细节的所有图片: 某个细节包含多个细节图片</li>
+</ul>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decorating_case_detail.decorating_case_image.map(&amp;<span class="symbol">:image_url</span>)</span><br></pre></td></tr></table></figure>
+
+
+			
+            <section class="comment">
+<!-- 多说评论框 start -->
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+
+
+        </div>
+    </div>
+</article>
+
+
+    <footer id="footer">
+    <div id="bottom-tip">
+        senbaisang —— <small>cooooooooder</small>
+    </div>
+        <small>该博客由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动，搭载 <a href="https://github.com/XadillaX/hexadillax" target="_blank">Hexadillax</a> 主题</small><br />
+        <small>&copy; 2015 Sally</small>
+    </footer>
+
+    
+
+
+</body>
+</html>
+
+

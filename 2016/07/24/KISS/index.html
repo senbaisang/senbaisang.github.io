@@ -1,0 +1,235 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+    <meta name="author" content="Sally">
+    
+    <meta name="description" content="KISS代表什么?KISS是Keep It Stupid Simple or｀Keep It Simple, Stupid｀的缩写。
+它有什么含义?这个原则是我在多年软件工程中取得巨大成功的一个关键。今天的软件工程师和开发人员之间最普遍的一个问题是：他们更倾向于解决复杂的问题。
+通常情况下，当一个开">
+    
+    
+
+    
+    
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KISS | senbaisang · cooooooooder</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+
+    <!-- Javascript -->
+    <script src="/js/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery.backstretch.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/headroom.min.js"></script>
+    <script src="/js/jquery.headroom.min.js"></script>
+    <script src="/js/common.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://senbaisang.github.io" title="senbaisang">senbaisang</a>
+            </div>
+
+            <div role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <p class="navbar-text pull-right">cooooooooder</p>
+
+                <ul class="nav navbar-nav">
+                    
+                    <li id="nav-index"><a href="/">首页</a></li>
+                    
+                    <li id="nav-archives"><a href="/archives">归档</a></li>
+                    
+                    <li id="nav-tags"><a href="/tags">标签</a></li>
+                    
+                    <li id="nav-categories"><a href="/categories">分类</a></li>
+                    
+                    <li id="nav-curriculumvitae"><a href="/curriculumvitae">关于</a></li>
+                    
+                    <li id="nav-links"><a href="/links">链接</a></li>
+                    
+                    <li id="nav-resources"><a href="/resources">资源</a></li>
+                    
+
+                    <li><a href="https://github.com/senbaisang" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+    var backRoot = "/images/background/";
+    var backArray = [ "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg",  ];
+
+    $(function() {
+        // page-id...
+        var pageId = "2016/07/24/KISS/";
+        pageId = pageId.substr(0, pageId.indexOf("/"));
+        if(pageId === "") pageId = "index";
+
+        $("#nav-" + pageId).addClass("active");
+    });
+    </script>
+
+
+  <article class="post container">
+    <div class="well post-body first-post last-post">
+        <h1>KISS</h1>
+
+        <div class="time-info">
+发表于:<time datetime="2016-07-24T06:25:34.000Z" itemprop="datePublished">2016-07-24</time>，更新于:<time datetime="2017-08-26T14:04:16.000Z" itemprop="dateModified">2017-08-26</time>，By <a href="http://senbaisang.github.io" title="Sally">Sally</a>
+        </div>
+
+        <div class="post-body-inner">
+            <div id="toc" class="toc-article well">
+                <strong class="toc-title">大纲</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#KISS代表什么?"><span class="toc-number">1.</span> <span class="toc-text">KISS代表什么?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#它有什么含义?"><span class="toc-number">2.</span> <span class="toc-text">它有什么含义?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#我如何从KISS中获益？"><span class="toc-number">3.</span> <span class="toc-text">我如何从KISS中获益？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#我如何将KISS原则用到工作中"><span class="toc-number">4.</span> <span class="toc-text">我如何将KISS原则用到工作中</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#KISS原则的例子"><span class="toc-number">5.</span> <span class="toc-text">KISS原则的例子</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What_does_KISS_stand_for?"><span class="toc-number">6.</span> <span class="toc-text">What does KISS stand for?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What_does_that_mean?"><span class="toc-number">7.</span> <span class="toc-text">What does that mean?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How_will_I_benefit_from_KISS"><span class="toc-number">8.</span> <span class="toc-text">How will I benefit from KISS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How_can_I_apply_the_KISS_principle_to_my_work"><span class="toc-number">9.</span> <span class="toc-text">How can I apply the KISS principle to my work</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Are_there_any_examples_of_the_KISS_principle"><span class="toc-number">10.</span> <span class="toc-text">Are there any examples of the KISS principle</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Does_KISS_only_apply_to_java_coding"><span class="toc-number">11.</span> <span class="toc-text">Does KISS only apply to java coding</span></a></li></ol>
+            </div>
+
+            <h1 id="KISS代表什么?">KISS代表什么?</h1><p>KISS是<code>Keep It Stupid Simple</code> or｀Keep It Simple, Stupid｀的缩写。</p>
+<h1 id="它有什么含义?">它有什么含义?</h1><p>这个原则是我在多年软件工程中取得巨大成功的一个关键。今天的软件工程师和开发人员之间最普遍的一个问题是：他们更倾向于解决复杂的问题。</p>
+<p>通常情况下，当一个开发者遇到一个问题，他们将问题分成更小的部分，他们认为自己理解并尝试在代码中实现解决方法。我想说的是十之八九的开发者会犯的错误：他们不能将问题分解的足够小，或者完全理解每个碎片。这将导致即使是一个极其简单的问题也会有非常复杂的实现，另一个副作用是spagetthi code(😂代码浓密)，一些我们认为只要基本的goto语句实现，但同样的结果在java类中需要500-1000行代码，每个方法都有几百行。</p>
+<p>代码混乱的结果导致当开发者写代码的时候意识到他们原始解决方法的例外情况。如果开发者继续分解问题，这些例外情况将会被解决。</p>
+<h1 id="我如何从KISS中获益？">我如何从KISS中获益？</h1><ul>
+<li><p>你能更快的解决更多问题。</p>
+</li>
+<li><p>你能够写出用几行代码解决复杂的问题的代码。</p>
+</li>
+<li><p>你能够生产高质量的代码。</p>
+</li>
+<li><p>你能够构建出容易维护的大型系统。</p>
+</li>
+<li><p>当有新的需求时，你的代码库将会非常灵活，易于扩展、修改和重构。</p>
+</li>
+<li><p>你可以达到超出你想象的目的。</p>
+</li>
+<li><p>既然所有的代码都如此愚蠢而又简单，那么你岂不是可以在大型团队和大型项目中工作。</p>
+</li>
+</ul>
+<h1 id="我如何将KISS原则用到工作中">我如何将KISS原则用到工作中</h1><p>There are several steps to take, very simple, but could be challenging for some. As easy as it sounds, keeping it simple, is a matter of patience, mostly with yourself.</p>
+<p>有几个步骤，很简单，但对一些人来说是个挑战。像听起来那么容易，保持它的简单，准要对自己来说是一种耐心。</p>
+<ul>
+<li><p>保持谦逊，不要认为自己是超级天才，这是你的第一个错误。通过谦卑，你最终会达到超级天才的状态，尽管你不能做到，谁关心啊！你的代码愚蠢又简单，所以你不必成为一个天才。</p>
+</li>
+<li><p>将你的任务分解成你认为编码不超过4-12小时的子任务。</p>
+</li>
+<li><p>将你的问题分解成很多的小问题。每个问题只用一个或非常少的类就能解决。</p>
+</li>
+<li><p>让你的方法小起来，每个方法不应该超过30-40行。每个方法只应该解决一个小问题而不是很多用例。<br>如果你的方法中有很多条件，将它们分解到更小的方法中。<br>不仅要让代码好读，易维护，更应该让找起bug来更快。<br>你要学着爱上编辑器中的” 右键＋重构”</p>
+</li>
+<li><p>让你的类小起来，将同类方法放在一块。</p>
+</li>
+<li><p>先解决问题，然后再编码。而不是像许多开发者一样边编码边解决问题，这样并没有错。事实上，你也可以这么做但是保证以上声明。<br>如果你有在心里将问题分成极小块的能力，你可以在编码的同时通过各种方法这样做。但是不要害怕一遍一遍又一遍一遍的重构你的代码。最终的结果才是最重要的，不能用行数测量，除非你衡量代码坚持越少越好的原则。</p>
+</li>
+<li><p>不要害怕丢弃代码。重构和重新编码是很重要的两个方面。当你接到一个新的需求，或者当你开始写代码时，你并没有意识到你也许可以用一个更好的方法解决旧的/新的问题。<br>如果你遵循了以上建议，那么需要重写的代码量就会极小极小，但是如果你不遵循以上建议，那代码如论如何都得被重写。</p>
+</li>
+<li><p>其他情况下，保持代码尽可能的简单，这是最难应用的行为模式，可一旦你拥有了它，当某天，你回首往事的时候，你会说：I cant imagine how i was doing work before.</p>
+</li>
+</ul>
+<h1 id="KISS原则的例子">KISS原则的例子</h1><p>简直不要太多，这里我将寻找真正的强者中的一个贴出来。给你个思考：</p>
+<p>世界上一些伟大的算法只有极少的行。我们很容易就理解了那几行。算法的创新者，将问题分解到很容易理解的之后，然后去实现它。</p>
+<p><code>很多伟大的问题解决的不是伟大的编码者，但却生产出了伟大的代码！😂</code></p>
+<hr>
+<h1 id="What_does_KISS_stand_for?">What does KISS stand for?</h1><p>The KISS is an abbreviation of Keep It Stupid Simple or Keep It Simple, Stupid</p>
+<h1 id="What_does_that_mean?">What does that mean?</h1><p>This principle has been a key, and a huge success in my years of software engineering. A common problem among software engineers and developers today is that they tend to over complicate problems.</p>
+<p>Typically when a developer is faced with a problem, they break it down into smaller pieces that they think they understand and then try to implement the solution in code. I would say 8 or 9 out of 10 developers make the mistake that they don’t break down the problem into small enough or understandable enough pieces. This results in very complex implementations of even the most simple problems, another side effect is spagetthi code, something we tought only BASIC would do with its goto statements, but in Java this results in classes with 500-1000 lines of code, methods that each have several hundreds of lines.</p>
+<p>This code clutter is a result of the developer realizing exception cases to his original solution while he is typing in code. These exception cases would have solved if the developer had broken down the problem further.</p>
+<h1 id="How_will_I_benefit_from_KISS">How will I benefit from KISS</h1><ul>
+<li><p>You will be able to solve more problems, faster.</p>
+</li>
+<li><p>You will be able to produce code to solve complex problems in fewer lines of code</p>
+</li>
+<li><p>You will be able to produce higher quality code</p>
+</li>
+<li><p>You will be able to build larger systems, easier to maintain</p>
+</li>
+<li><p>You’re code base will be more flexible, easier to extend, modify or refactor when new requirements arrive</p>
+</li>
+<li><p>You will be able to achieve more than you ever imagined</p>
+</li>
+<li><p>You will be able to work in large development groups and large projects since all the code is stupid simple</p>
+</li>
+</ul>
+<h1 id="How_can_I_apply_the_KISS_principle_to_my_work">How can I apply the KISS principle to my work</h1><p>There are several steps to take, very simple, but could be challenging for some. As easy as it sounds, keeping it simple, is a matter of patience, mostly with yourself.</p>
+<ul>
+<li><p>Be Humble, don’t think of yourself as a super genius, this is your first mistake</p>
+</li>
+<li><p>By being humble, you will eventually achieve super genius status =), and even if you don’t, who cares! your code is stupid simple, so you don’t have to be a genius to work with it.</p>
+</li>
+<li><p>Break down your tasks into sub tasks that you think should take no longer than 4-12 hours to code</p>
+</li>
+<li><p>Break down your problems into many small problems. Each problem should be able to be solved within one or a very few classes</p>
+</li>
+<li><p>Keep your methods small, each method should never be more than 30-40 lines. Each method should only solve one little problem, not many uses cases<br>If you have a lot of conditions in your method, break these out into smaller methods.<br>Not only will this be easier to read and maintain, but you will find bugs a lot faster.<br>You will learn to love Right Click+Refactor in your editor.</p>
+</li>
+<li><p>Keep your classes small, same methodology applies here as we described for methods.</p>
+</li>
+<li><p>Solve the problem, then code it. Not the other way around<br>Many developers solve their problem while they are coding, and there is nothing wrong doing that. As a matter of fact, you can do that and still adhere to the above statement.<br>If you have the ability to mentally break down things into very small pieces, then by all means, do that while you are coding. But don’t be afraid of refactor your code over and over and over and over again. Its the end result that counts, and number of lines is not a measurement, unless you measure that fewer is better of course.</p>
+</li>
+<li><p>Don’t be afraid to throw away code. Refactoring and recoding are two very important areas. As you come across requirements that didn’t exist, or you weren’t aware of when you wrote the code to begin with you might be able to solve the old and the new problems with an even better solution.<br>If you had followed the advice above, the amount of code to rewrite would have been minimal, and if you hadn’t followed the advice above, then the code should probably be rewritten anyway.</p>
+</li>
+<li><p>And for all other scenarios, try to keep it as simple as possible, this is the hardest behavior pattern to apply to, but once you have it, you’ll look back and will say, I can’t imagine how I was doing work before.</p>
+</li>
+</ul>
+<h1 id="Are_there_any_examples_of_the_KISS_principle">Are there any examples of the KISS principle</h1><p>There are many, and I will look for some really great one to post here. But I will leave you with the following thought:</p>
+<p>Some of the world’s greatest algorithms are always the ones with the fewest lines of code. And when we go through the lines of code, we can easily understand them. The innovator of that algorithm, broke down the problem until it was so easy to understand that he/she could implement it.<br><code>Many great problem solvers were not great coders, but yet they produced great code!</code></p>
+<h1 id="Does_KISS_only_apply_to_java_coding">Does KISS only apply to java coding</h1><p>Absolutely not, it applies to many other programming languages and extends to many other areas in your life.<br>The areas that the principle doesn’t apply to are: emotions, love and most importantly, your marriage :)</p>
+<hr>
+<p><a href="http://web.archive.org/web/20160206225831/https://people.apache.org/~fhanik/kiss.html" target="_blank" rel="external">原文地址</a></p>
+<p>幼儿园水平翻译，慢慢来哈哈，哈，哈，哈，哈花轮同学~~~</p>
+
+
+			
+            <section class="comment">
+<!-- 多说评论框 start -->
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+
+
+        </div>
+    </div>
+</article>
+
+
+    <footer id="footer">
+    <div id="bottom-tip">
+        senbaisang —— <small>cooooooooder</small>
+    </div>
+        <small>该博客由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动，搭载 <a href="https://github.com/XadillaX/hexadillax" target="_blank">Hexadillax</a> 主题</small><br />
+        <small>&copy; 2015 Sally</small>
+    </footer>
+
+    
+
+
+</body>
+</html>
+
+

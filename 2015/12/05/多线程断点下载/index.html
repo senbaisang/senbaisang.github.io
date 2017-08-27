@@ -1,0 +1,268 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+    <meta name="author" content="Sally">
+    
+    <meta name="description" content="多线程断点下载原理原理
+开启的线程数为 threadCound = 3
+
+每个线程下载的大小为 blockSize = 3
+
+要下载文件的总大小为 size = 10
+
+
+
+
+
+
+线程号 ｜
+下载开始位置 ｜
+下载结束位置 ｜
+eg
+
+
+
+
+0
+0*blockSize
+1*blockSize - 1">
+    
+    
+
+    
+    
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>多线程断点下载 | senbaisang · cooooooooder</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+
+    <!-- Javascript -->
+    <script src="/js/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery.backstretch.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/headroom.min.js"></script>
+    <script src="/js/jquery.headroom.min.js"></script>
+    <script src="/js/common.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://senbaisang.github.io" title="senbaisang">senbaisang</a>
+            </div>
+
+            <div role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <p class="navbar-text pull-right">cooooooooder</p>
+
+                <ul class="nav navbar-nav">
+                    
+                    <li id="nav-index"><a href="/">首页</a></li>
+                    
+                    <li id="nav-archives"><a href="/archives">归档</a></li>
+                    
+                    <li id="nav-tags"><a href="/tags">标签</a></li>
+                    
+                    <li id="nav-categories"><a href="/categories">分类</a></li>
+                    
+                    <li id="nav-curriculumvitae"><a href="/curriculumvitae">关于</a></li>
+                    
+                    <li id="nav-links"><a href="/links">链接</a></li>
+                    
+                    <li id="nav-resources"><a href="/resources">资源</a></li>
+                    
+
+                    <li><a href="https://github.com/senbaisang" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+    var backRoot = "/images/background/";
+    var backArray = [ "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg",  ];
+
+    $(function() {
+        // page-id...
+        var pageId = "2015/12/05/多线程断点下载/";
+        pageId = pageId.substr(0, pageId.indexOf("/"));
+        if(pageId === "") pageId = "index";
+
+        $("#nav-" + pageId).addClass("active");
+    });
+    </script>
+
+
+  <article class="post container">
+    <div class="well post-body first-post last-post">
+        <h1>多线程断点下载</h1>
+
+        <div class="time-info">
+发表于:<time datetime="2015-12-05T14:47:08.000Z" itemprop="datePublished">2015-12-05</time>，更新于:<time datetime="2017-08-26T14:04:16.000Z" itemprop="dateModified">2017-08-26</time>，By <a href="http://senbaisang.github.io" title="Sally">Sally</a>
+        </div>
+
+        <div class="post-body-inner">
+            <div id="toc" class="toc-article well">
+                <strong class="toc-title">大纲</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#多线程断点下载原理"><span class="toc-number">1.</span> <span class="toc-text">多线程断点下载原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#server端处理思路"><span class="toc-number">1.2.</span> <span class="toc-text">server端处理思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#client端处理思路"><span class="toc-number">1.3.</span> <span class="toc-text">client端处理思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现断点下载"><span class="toc-number">1.4.</span> <span class="toc-text">实现断点下载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#知识点补充"><span class="toc-number">1.5.</span> <span class="toc-text">知识点补充</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码"><span class="toc-number">2.</span> <span class="toc-text">代码</span></a></li></ol>
+            </div>
+
+            <h1 id="多线程断点下载原理">多线程断点下载原理</h1><h2 id="原理">原理</h2><ul>
+<li><p>开启的线程数为 threadCound = 3</p>
+</li>
+<li><p>每个线程下载的大小为 blockSize = 3</p>
+</li>
+<li><p>要下载文件的总大小为 size = 10</p>
+</li>
+</ul>
+<hr>
+<table>
+<thead>
+<tr>
+<th>线程号 ｜</th>
+<th>下载开始位置 ｜</th>
+<th>下载结束位置 ｜</th>
+<th>eg</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0*blockSize</td>
+<td>1*blockSize - 1</td>
+<td>0 - 2</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1*blockSize</td>
+<td>2*blockSize - 1</td>
+<td>3 - 5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2*blockSize</td>
+<td>size</td>
+<td>6 - 9</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="server端处理思路">server端处理思路</h2><ol>
+<li><p>获得目标文件的大小</p>
+</li>
+<li><p>根据开启线程的个数，执行下载操作</p>
+</li>
+<li><p>这里需要用到<code>RandomAccessFile</code>这个<code>随机读写文件</code>的类，</p>
+<ul>
+<li>该类可以创建指定大小的空白文件</li>
+<li>该类还能指定文件读写的位置</li>
+<li>该类在创建对象时，可以指定文件的操作模式(r, rw, rwd, rws)</li>
+<li>因为有了文件的操作模式，所以该类会实时的刷新文件到底层的存储设备，而不像一般的文件操作类的flush()动作，只是将读到的文件刷新到硬盘的缓冲区</li>
+</ul>
+</li>
+<li><p>http协议</p>
+<ul>
+<li><p>这里需要用到一个http 协议，Range 指定读取服务器端文件的位置</p>
+</li>
+<li><p><code>HttpUrlConnection.setRequestProperties(&quot;Range&quot;, &quot;byte=startIndex-endIndex&quot;);</code></p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="client端处理思路">client端处理思路</h2><ol>
+<li><p>创建一个与目标文件一样大小的空白文件</p>
+</li>
+<li><p>开启若干个线程，执行下载</p>
+</li>
+<li><p>待所有的线程都下载完毕，则该文件下载完成，这时才可以删除设置断点的临时文件</p>
+</li>
+<li><p>删除临时文件时，注意线程安全</p>
+</li>
+</ol>
+<h2 id="实现断点下载">实现断点下载</h2><ol>
+<li><p>实时的将当前线程的下载进度(已下载文件的大小)写入到文件中</p>
+</li>
+<li><p>如果一次没有下载完，再次下载时，应该从上次下载的位置开始下载（即：文件的开始下载位置以及已下载文件的总大小需要实时记录）</p>
+</li>
+<li><p>直到所有的线程都下载完毕，才能将所有临时存储的下载文件的大小删除 (这里注意：线程安全问题，需要加锁)</p>
+</li>
+</ol>
+<h2 id="知识点补充">知识点补充</h2><ol>
+<li><p>http请求的一个设置信息<code>setRequestProperties(&quot;Range&quot;, &quot;byte=startIndex-endIndex&quot;)</code></p>
+</li>
+<li><p>文件的读写位置都是从<code>0</code>开始的</p>
+</li>
+<li><p>http协议 ： 服务器返回的文件，该文件的读写位置也是从<code>0</code>开始的</p>
+</li>
+<li><p>RandomAccessFile 的读写模式<code>r</code>,<code>rw</code>,<code>rwd</code>,<code>rws</code></p>
+<ul>
+<li>r : 以只读方式打开，调用结果对象的人和write方法都会抛出IOException异常</li>
+<li>rw : 打开以便读取和写入，如果该文件不存在，则尝试创建该文件</li>
+<li>rws : 打开以便读取和写入，对于’rw’，还要求对文件内容和元数据的每个更新都同步写入到底层存储设备</li>
+<li>rwd : 打开以便读取和写入，对于’rw’，还要求对文件内容的每个更新都同步写入到底层存储设备</li>
+</ul>
+</li>
+</ol>
+<h1 id="代码">代码</h1><ul>
+<li>主函数</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DownLoadDemo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 开启的线程数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> threadCount = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 每个下载块的大小</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> blockSize = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 正在运行的线程的个数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> runningThreadCount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  1. 先获得 服务器文件大小</span></span><br><span class="line">    String mUrl = <span class="string">"http://192/168.0.123:8080/ex.exe"</span>;</span><br><span class="line">    HttpURLConnection conn = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      URL url = <span class="keyword">new</span> URL(mUrl);</span><br><span class="line">      conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">      conn.setRequestMethod(<span class="string">"GET"</span>);</span><br><span class="line">      conn.setReadTimeout(<span class="number">5000</span>);</span><br><span class="line">      <span class="keyword">int</span> responseCode = conn.getResponseCode();</span><br><span class="line">      <span class="comment">// 读取成功</span></span><br><span class="line">      <span class="keyword">if</span>(responseCode / <span class="number">100</span> == <span class="number">2</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 得到服务器返回 的文件的大小</span></span><br><span class="line">        <span class="keyword">long</span> size = conn.getContentLength();</span><br><span class="line">        System.out.println(<span class="string">"****** 获得服务器文件的大小 ： "</span> + size);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 每个线程下载的文件大小</span></span><br><span class="line">        blockSize = size / threadCount;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 在本地创建一个同样大小的 空文件 : params：文件对象；文件的读写模式</span></span><br><span class="line">        File file = <span class="keyword">new</span> File(<span class="string">"temp.exe"</span>);</span><br><span class="line">        RandomAccessFile raf = <span class="keyword">new</span> RandomAccessFile(file, <span class="string">"rw"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置文件的大小</span></span><br><span class="line">        raf.setLength(size);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 开启线程，下载文件资源</span></span><br><span class="line">        runningThreadCount = threadCount;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;blockSize; i++) &#123;</span><br><span class="line">          <span class="keyword">long</span> startIndex = i*blockSize;</span><br><span class="line">          <span class="keyword">long</span> endIndex = (i+<span class="number">1</span>) * blockSize - <span class="number">1</span>;</span><br><span class="line">          <span class="comment">// 最后一个线程下载文件的结束位置</span></span><br><span class="line">          <span class="keyword">if</span>(i == blockSize-<span class="number">1</span>) &#123;</span><br><span class="line">            endIndex = size - <span class="number">1</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          System.out.println(<span class="string">"开启线程 ："</span> + i + <span class="string">" 执行下载, 下载的位置是 ："</span> + startIndex + <span class="string">" - "</span> + endIndex);</span><br><span class="line">          <span class="keyword">new</span> DownThread(i, startIndex, endIndex, mUrl).start();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="keyword">if</span>(conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">        conn.disconnect();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动线程，执行下载</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 执行下载的线程,内部类</span><br><span class="line"> * <span class="doctag">@author</span> sally</span><br><span class="line"> *</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">DownThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> threadId;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">long</span> startIndex;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">long</span> endIndex;</span><br><span class="line">  <span class="keyword">private</span> String path;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DownThread</span><span class="params">(<span class="keyword">int</span> threadId, <span class="keyword">long</span> startIndex, <span class="keyword">long</span> endIndex,</span><br><span class="line">      String path)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>();</span><br><span class="line">    <span class="keyword">this</span>.threadId = threadId;</span><br><span class="line">    <span class="keyword">this</span>.startIndex = startIndex;</span><br><span class="line">    <span class="keyword">this</span>.endIndex = endIndex;</span><br><span class="line">    <span class="keyword">this</span>.path = path;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    HttpURLConnection conn = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 断点下载 ： 保存当前线程下载文件大小的文件</span></span><br><span class="line">      File positionFile = <span class="keyword">new</span> File(threadId + <span class="string">".txt"</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 当前线程下载的文件的总大小</span></span><br><span class="line">       <span class="keyword">int</span> total = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">      URL url = <span class="keyword">new</span> URL(path);</span><br><span class="line">      conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">      conn.setRequestMethod(<span class="string">"GET"</span>);</span><br><span class="line">      conn.setReadTimeout(<span class="number">5000</span>);</span><br><span class="line">      <span class="keyword">int</span> responseCode = conn.getResponseCode();</span><br><span class="line">      <span class="keyword">if</span>(responseCode / <span class="number">100</span> ==<span class="number">2</span>) &#123;</span><br><span class="line">        InputStream is = conn.getInputStream();</span><br><span class="line">        File file = <span class="keyword">new</span> File(<span class="string">"temp.exe"</span>);</span><br><span class="line">        RandomAccessFile raf = <span class="keyword">new</span> RandomAccessFile(file, <span class="string">"rw"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 首先，上次下载文件必须存在</span></span><br><span class="line">        <span class="keyword">if</span>(positionFile.exists() &amp;&amp; positionFile.length()&gt;<span class="number">0</span>) &#123;</span><br><span class="line">          <span class="comment">// 从上一次下载的位置的总大小开始下载</span></span><br><span class="line">          FileInputStream fis = <span class="keyword">new</span> FileInputStream(positionFile);</span><br><span class="line">          BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(fis));</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 获取 当前线程上次下载文件的总大小</span></span><br><span class="line">          <span class="keyword">int</span> lastTotal = Integer.valueOf(reader.readLine());</span><br><span class="line">          System.out.println(<span class="string">"上次线程 : "</span> + threadId + <span class="string">" 下载的总大小为 ： "</span> + lastTotal);</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 开始位置 = 当前位置 + 上次下载文件的总大小</span></span><br><span class="line">          startIndex += lastTotal;</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 下载文件的总大小 = 当前大小 + 上次下载文件的总大小</span></span><br><span class="line">          total += lastTotal;</span><br><span class="line"></span><br><span class="line">          fis.close();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 指定文件开始写的 位置</span></span><br><span class="line">        raf.seek(startIndex);</span><br><span class="line">        System.out.println(<span class="string">"第"</span> + threadId + <span class="string">"个线程下载文件的开始位置是 ： "</span> + String.valueOf(startIndex-<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 开始写文件</span></span><br><span class="line">        <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>*<span class="number">1024</span>];</span><br><span class="line">        <span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>((len = is.read(buf)) != -<span class="number">1</span>) &#123;</span><br><span class="line">          raf.write(buf, <span class="number">0</span>, len);</span><br><span class="line"></span><br><span class="line">          <span class="comment">// 保存当前线程下载的文件大小</span></span><br><span class="line">          RandomAccessFile rf = <span class="keyword">new</span> RandomAccessFile(positionFile, <span class="string">"rwd"</span>);</span><br><span class="line">          total += len;</span><br><span class="line">          rf.write(String.valueOf(total).getBytes());</span><br><span class="line">          rf.close();</span><br><span class="line">        &#125;</span><br><span class="line">        is.close();</span><br><span class="line">        raf.close();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">      e.printStackTrace();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="comment">// 同步代码块，只有当所有为线程都下载完了，才能删除临时文件</span></span><br><span class="line">      <span class="keyword">synchronized</span> (DownThread.class) &#123;</span><br><span class="line">        runningThreadCount--;</span><br><span class="line">        <span class="keyword">if</span>(runningThreadCount &lt; <span class="number">1</span>) &#123;</span><br><span class="line">          System.out.println(<span class="string">"所有的线程都下载完毕了"</span>);</span><br><span class="line">          <span class="keyword">for</span>(<span class="keyword">int</span> i=threadCount; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">            File file = <span class="keyword">new</span> File(i + <span class="string">".txt"</span>);</span><br><span class="line">            file.delete();</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span>(conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">        conn.disconnect();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+			
+            <section class="comment">
+<!-- 多说评论框 start -->
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+
+
+        </div>
+    </div>
+</article>
+
+
+    <footer id="footer">
+    <div id="bottom-tip">
+        senbaisang —— <small>cooooooooder</small>
+    </div>
+        <small>该博客由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动，搭载 <a href="https://github.com/XadillaX/hexadillax" target="_blank">Hexadillax</a> 主题</small><br />
+        <small>&copy; 2015 Sally</small>
+    </footer>
+
+    
+
+
+</body>
+</html>
+
+

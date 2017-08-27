@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "Packaging Funny";
+  src: url("Packaging Funny.woff2") format("woff2"),
+       url("Packaging Funny.woff") format("woff"),
+       url("Packaging Funny.ttf") format("truetype"),
+       url("Packaging Funny.eot") format("embedded-opentype"),
+       url("Packaging Funny.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}

@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "SentyMARUKO";
+  src: url("SentyMARUKO.woff2") format("woff2"),
+       url("SentyMARUKO.woff") format("woff"),
+       url("SentyMARUKO.ttf") format("truetype"),
+       url("SentyMARUKO.eot") format("embedded-opentype"),
+       url("SentyMARUKO.svg") format("svg"),
+       url("SentyMARUKO.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}

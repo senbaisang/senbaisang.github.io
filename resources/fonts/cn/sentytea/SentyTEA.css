@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "SentyTEA";
+  src: url("SentyTEA.woff2") format("woff2"),
+       url("SentyTEA.woff") format("woff"),
+       url("SentyTEA.ttf") format("truetype"),
+       url("SentyTEA.eot") format("embedded-opentype"),
+       url("SentyTEA.svg") format("svg"),
+       url("SentyTEA.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}

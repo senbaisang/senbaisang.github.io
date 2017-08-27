@@ -1,0 +1,264 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+    <meta name="author" content="Sally">
+    
+    <meta name="description" content="高效的加载大的位图读取位图的规模(大小)和类型 read bitmap dimensions and typedecodeByteArray(), decodeFile(), decodeResources()
+
+BitmapFactory类提供了一些解码方法(decodeByteArray(), ">
+    
+    
+
+    
+    
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>android - 图片加载&amp;缓存&amp;管理(文档学习) | senbaisang · cooooooooder</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+
+    <!-- Javascript -->
+    <script src="/js/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery.backstretch.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/headroom.min.js"></script>
+    <script src="/js/jquery.headroom.min.js"></script>
+    <script src="/js/common.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://senbaisang.github.io" title="senbaisang">senbaisang</a>
+            </div>
+
+            <div role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <p class="navbar-text pull-right">cooooooooder</p>
+
+                <ul class="nav navbar-nav">
+                    
+                    <li id="nav-index"><a href="/">首页</a></li>
+                    
+                    <li id="nav-archives"><a href="/archives">归档</a></li>
+                    
+                    <li id="nav-tags"><a href="/tags">标签</a></li>
+                    
+                    <li id="nav-categories"><a href="/categories">分类</a></li>
+                    
+                    <li id="nav-curriculumvitae"><a href="/curriculumvitae">关于</a></li>
+                    
+                    <li id="nav-links"><a href="/links">链接</a></li>
+                    
+                    <li id="nav-resources"><a href="/resources">资源</a></li>
+                    
+
+                    <li><a href="https://github.com/senbaisang" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+    var backRoot = "/images/background/";
+    var backArray = [ "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg",  ];
+
+    $(function() {
+        // page-id...
+        var pageId = "2016/06/28/android-bitmap-load-cache-manage/";
+        pageId = pageId.substr(0, pageId.indexOf("/"));
+        if(pageId === "") pageId = "index";
+
+        $("#nav-" + pageId).addClass("active");
+    });
+    </script>
+
+
+  <article class="post container">
+    <div class="well post-body first-post last-post">
+        <h1>android - 图片加载&缓存&管理(文档学习)</h1>
+
+        <div class="time-info">
+发表于:<time datetime="2016-06-28T06:59:18.000Z" itemprop="datePublished">2016-06-28</time>，更新于:<time datetime="2017-08-26T14:04:16.000Z" itemprop="dateModified">2017-08-26</time>，By <a href="http://senbaisang.github.io" title="Sally">Sally</a>
+        </div>
+
+        <div class="post-body-inner">
+            <div id="toc" class="toc-article well">
+                <strong class="toc-title">大纲</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#高效的加载大的位图"><span class="toc-number">1.</span> <span class="toc-text">高效的加载大的位图</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#读取位图的规模(大小)和类型_read_bitmap_dimensions_and_type"><span class="toc-number">1.1.</span> <span class="toc-text">读取位图的规模(大小)和类型 read bitmap dimensions and type</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将按比例缩小的版本加载到内存_load_a_scaled_down_version_into_memory"><span class="toc-number">1.2.</span> <span class="toc-text">将按比例缩小的版本加载到内存 load a scaled down version into memory</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在非ui线程处理位图_processing_bitmaps_off_the_ui_thread"><span class="toc-number">2.</span> <span class="toc-text">在非ui线程处理位图 processing bitmaps off the ui thread</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用异步任务_use_an_AsyncTask"><span class="toc-number">2.1.</span> <span class="toc-text">使用异步任务 use an AsyncTask</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#处理并发_handle_concurrency"><span class="toc-number">2.2.</span> <span class="toc-text">处理并发 handle concurrency</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#缓存位图_caching_bitmaps"><span class="toc-number">3.</span> <span class="toc-text">缓存位图 caching bitmaps</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存缓存_use_a_memory_cache"><span class="toc-number">3.1.</span> <span class="toc-text">内存缓存 use a memory cache</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#磁盘缓存_use_a_disk_cache"><span class="toc-number">3.2.</span> <span class="toc-text">磁盘缓存 use a disk cache</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#图片内存管理_managing_bitmap_memory"><span class="toc-number">4.</span> <span class="toc-text">图片内存管理 managing bitmap memory</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在ui中展示位图_displaying_bitmaps_in_your_ui"><span class="toc-number">5.</span> <span class="toc-text">在ui中展示位图 displaying bitmaps in your ui</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#加载位图到viewpager的实现_load_bitmaps_into_a_ViewPager_implementation"><span class="toc-number">5.1.</span> <span class="toc-text">加载位图到viewpager的实现 load bitmaps into a ViewPager implementation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加载图片到gridview的实现_load_bitmaps_into_a_GridView_implementation"><span class="toc-number">5.2.</span> <span class="toc-text">加载图片到gridview的实现 load bitmaps into a GridView implementation</span></a></li></ol></li></ol>
+            </div>
+
+            <h1 id="高效的加载大的位图">高效的加载大的位图</h1><h2 id="读取位图的规模(大小)和类型_read_bitmap_dimensions_and_type">读取位图的规模(大小)和类型 read bitmap dimensions and type</h2><p><code>decodeByteArray()</code>, <code>decodeFile()</code>, <code>decodeResources()</code></p>
+<ul>
+<li><code>BitmapFactory</code>类提供了一些解码方法(<code>decodeByteArray()</code>, <code>decodeFile()</code>, <code>decodeResource()</code>, etc.)用于创建各种来源的位图。</li>
+</ul>
+<p>基于图片数据的来源选择最合适的解码方法。这些方法在构建位图时企图分配内存，因此很容易产生<code>OutOfMemory</code>异常。每种类型的解码方法</p>
+<p>都有额外的特征，允许你通过<code>BitmapFactory.Options</code>类指定解码选项。解码时设置<code>inJustDecodeBounds</code>属性的值为<code>true</code>可以避免内存分配。</p>
+<p>此时不会返回位图对象，但可以得到<code>outWidth</code>，<code>outHeight</code>，<code>outMimeType</code>。这个技术允许你在构建位图之前能读取到图片数据的尺寸和类型。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">BitmapFactory.<span class="keyword">Options</span> <span class="keyword">options</span> = <span class="keyword">new</span> BitmapFactory.<span class="keyword">Options</span>();</span><br><span class="line"><span class="keyword">options</span>.inJustDecodeBounds = <span class="keyword">true</span>;</span><br><span class="line">BitmapFactory.decodeResource(getResources(), R.id.myimg, <span class="keyword">options</span>);</span><br><span class="line"><span class="keyword">int</span> imageHeidht = <span class="keyword">options</span>.outHeight;</span><br><span class="line"><span class="keyword">int</span> imageWidth = <span class="keyword">options</span>.outWidth;</span><br><span class="line">String imageType = <span class="keyword">options</span>.outMimeType;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>为了避免<code>java.lang.OutOfMemory</code>异常，在解码图片时首先检查图片的大小，除非你绝对的(absolutely)信任来源为你提供的可预见(predictably)大小的图片数据，舒适的(comfortably)适合在可用的内存。</p>
+</blockquote>
+<h2 id="将按比例缩小的版本加载到内存_load_a_scaled_down_version_into_memory">将按比例缩小的版本加载到内存 load a scaled down version into memory</h2><p>现在知道了图片的大小，它们可以用来决定是将完整的图片加载到内存还是将子样品版本加载到内存。有一些考虑的因素(factors)</p>
+<ul>
+<li><p>估算(estimated)加载完整图片到内存的内存使用</p>
+</li>
+<li><p>基于你的应用中任何其他内存需求，加载这个图片你愿意提供多少内存</p>
+</li>
+<li><p>图片要加载到的imageView或者其他ui组件的尺寸</p>
+</li>
+<li><p>当前设备的屏幕尺寸和密度</p>
+</li>
+</ul>
+<p>例如：如果图片最终(eventually)在一个imageView中展示一个128x96像素的缩略图，那么将1024x768像素的图片加载到内存中的做法是不值得的。</p>
+<ul>
+<li>在<code>BitmapFactory.Options</code>对象中将<code>inSampleSize</code>设置为<code>true</code>，可以使解码器(decoder)对图片做二次抽样，将较小的版本加载到内存。</li>
+</ul>
+<p>例如：将分辨率为2048x1536的图片，使用<code>inSampleSize</code>=4进行解码，生成的位图大约(approximately)是512x384。将它加载到内存需要0.75MB而不是完整图片的12MB。</p>
+<p>这里有个方法计算样本尺寸的值，是基于目标宽高的2的幂。</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 官方文档的方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">int</span> calculateInSampleSize(BitmapFactory.Options options, <span class="built_in">int</span> reqWidth, <span class="built_in">int</span> reqHeight) &#123;</span><br><span class="line">  <span class="comment">// 原始图片的宽和高</span></span><br><span class="line">  <span class="built_in">int</span> <span class="variable">height</span> = options.outHeight;</span><br><span class="line">  <span class="built_in">int</span> <span class="variable">width</span> = options.outWidth;</span><br><span class="line">  <span class="built_in">int</span> inSampleSize = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(<span class="variable">height</span> &gt; reqHeight || <span class="variable">width</span> &gt; reqWidth) &#123;</span><br><span class="line">    <span class="built_in">int</span> halfHeight = <span class="variable">height</span> / <span class="number">2</span>;</span><br><span class="line">    <span class="built_in">int</span> halfWidth = <span class="variable">width</span> / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">while</span>((halfHeight / inSampleSize) &gt; reqHeight &amp;&amp; (halfWidth / inSampleSize) &gt; reqWidth) &#123;</span><br><span class="line">      inSampleSize *= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> inSampleSize;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 网上经常看到的方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">int</span> calculateInSampleSize(BitmapFactory.Options options, <span class="built_in">int</span> reqHeight, <span class="built_in">int</span> reqWidth) &#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">int</span> <span class="variable">height</span> = options.outHeight;</span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">int</span> <span class="variable">width</span> = options.outWidth;</span><br><span class="line">  <span class="built_in">int</span> inSampleSize = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span>(<span class="variable">height</span> &gt; reqHeight || <span class="variable">width</span> &gt; reqWidth) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">int</span> heightRatio = Math.<span class="built_in">round</span>((<span class="built_in">float</span>)<span class="variable">height</span> / (<span class="built_in">float</span>)reqHeight);</span><br><span class="line">    <span class="keyword">final</span> <span class="built_in">int</span> widthRatio = Math.<span class="built_in">round</span>((<span class="built_in">float</span>)<span class="variable">width</span> / (<span class="built_in">float</span>)reqWidth);</span><br><span class="line">    inSampleSize = heightRatio &lt; widthRatio ? heightRatio : widthRatio;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> inSampleSize;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用这个方法，首先设置<code>inJustDecodeBounds</code>为<code>true</code>进行解码，传递这个选项，然后在通过新的<code>inSampleSize</code>值并设置<code>inJustDecodeBounds</code>为false进行解码。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap decodeSampledBitmapFromResources(Resources res, <span class="keyword">int</span> resId, <span class="keyword">int</span> reqWidth, <span class="keyword">int</span> reqHeight) &#123;</span><br><span class="line">  <span class="keyword">final</span> BitmapFactory.<span class="keyword">Options</span> <span class="keyword">options</span> = <span class="keyword">new</span> BitmapFactory.<span class="keyword">Options</span>();</span><br><span class="line">  <span class="keyword">options</span>.inJustDecodeBounds = <span class="keyword">true</span>;</span><br><span class="line">  BitmapFactory.decodeResource(res, resid, <span class="keyword">options</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">options</span>.inSampleSize = calculateInSampleSize(<span class="keyword">options</span>, reqWidth, reqHeight);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">options</span>.inJustDecodeBounds = <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">return</span> BitmapFactory.decodeResource(res, resId, <span class="keyword">options</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法使得加载一个任意大尺寸的位图到imageView并且显示为100x100像素的缩略图变的容易。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">mImageView</span><span class="class">.setImageBitmap</span>(<span class="tag">decodeSampledBitmapFromResources</span>(<span class="tag">getResources</span>(), <span class="tag">R</span><span class="class">.id</span><span class="class">.myimage</span>, 100, 100));</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="在非ui线程处理位图_processing_bitmaps_off_the_ui_thread">在非ui线程处理位图 processing bitmaps off the ui thread</h1><ul>
+<li><code>BitmapFactory.decode*</code>方法，如果资源数据来自磁盘或者网络时，这些方法不应该在主(ui)线程执行。这些数据需要加载的时间是不可预知(unpredictable)的，主要依赖的几个因素(读取磁盘or网络的速度，图片的大小，cpu的速度)，如果其中一个任务阻塞了ui线程，系统将认为你的应用程序无响应，用户也会选择关闭该应用。</li>
+</ul>
+<h2 id="使用异步任务_use_an_AsyncTask">使用异步任务 use an AsyncTask</h2><p><code>AsyncTask</code>类提供了在后台线程执行工作的简单方法，并且返回结果到主线程。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BitmapWorkerTask</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AsyncTask&lt;Integer</span>, <span class="title">Void</span>, <span class="title">Bitmap&gt;</span> &#123;</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">WeakReference</span>&lt;<span class="type">ImageView</span>&gt; imageViewReference;</span><br><span class="line">  <span class="keyword">private</span> int data = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  public <span class="type">BitmapWorkerTask</span>(<span class="type">ImageView</span> imageView) &#123;</span><br><span class="line">    <span class="comment">// 使用虚引用确保iamgeview可以被GC(garbage collected)回收</span></span><br><span class="line">    imageViewReference = <span class="keyword">new</span> <span class="type">WeakReference</span>&lt;<span class="type">ImageView</span>&gt;(imageView);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// decode image in background</span></span><br><span class="line">  <span class="annotation">@override</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="type">Bitmap</span> doInBackground(<span class="type">Integer</span>... params) &#123;</span><br><span class="line">    data = params[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">return</span> decodeSampledBitmapFromResources(getResources(), data, <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// once complete, see if imageView is still around and set bitmap</span></span><br><span class="line">  <span class="annotation">@override</span></span><br><span class="line">  <span class="keyword">protected</span> void onPostExecute(<span class="type">Bitmap</span> bitmap) &#123;</span><br><span class="line">    <span class="keyword">if</span>(imageViewReference != <span class="literal">null</span> &amp;&amp; bitmap != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">final</span> <span class="type">ImageView</span> imageView = imageViewReference.get();</span><br><span class="line">      <span class="keyword">if</span>(imageView != <span class="literal">null</span>) &#123;</span><br><span class="line">        imageView.setImageBitmap(bitmap);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>为<code>ImageView</code>使用<code>WeakReference</code>确保<code>AsyncTask</code>所引用的资源以及<code>ImageView</code>可以被GC回收。当任务结束时不确保(guarantee)<code>ImageView</code>依然存在，所以你必须在<code>onPostExecute()</code>方法中检查引用。<code>ImageView</code>也许不再存在，例如，用任务结束之前户已经导航离开活动or设备配置发生了变化(屏幕旋转等)。</p>
+</blockquote>
+<p>开启一步加载位图，简单的创建任务并执行它即可：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> loadBitmap(<span class="keyword">int</span> resId, ImageView imageView) &#123;</span><br><span class="line">  BitmapWorkerTask <span class="keyword">task</span> = <span class="keyword">new</span> BitmapWorkerTask(imageView);</span><br><span class="line">  <span class="keyword">task</span>.execute(resId);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="处理并发_handle_concurrency">处理并发 handle concurrency</h2><p>普通的视图组件如<code>ListView</code>和<code>GridView</code>在使用上面演示的<code>AsyncTask</code>方法时会引入了另一个问题，为了更有效的使用内存，当用户滑动时，这些组件的子view会循环使用。如果每个子view都触发了<code>AsyncTask</code>，将不确保任务结束之前，与之相关联的view没有被回收并且用于别的子view。此外，也不能保证异步任务的开始顺序，就是其结束顺序。</p>
+<p><a href="http://android-developers.blogspot.com/2010/07/multithreading-for-performance.html" target="_blank" rel="external">Multithreading for Performance</a>这个博客进一步的讨论了并发处理，并且提供了一个解决方案：imageView存储一个引用到最近的AsyncTask中，使得任务完成后更迟的被检出。下面的例子：使用类似的方法，将之前部分的<code>AsyncTask</code>改变成类似的模式。</p>
+<p><em>解决方案：and offers a solution where the ImageVeiw stores a reference to the most recent AsyncTask which can later be checked when the task completes(这句不知道理解对了没)</em></p>
+<p>创建一个<code>Drawable</code>子类来存储关联工作任务的引用。这样，当任务完成时，使用<code>BitmapDrawable</code>在imageView上显示一个占位图。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">static <span class="class"><span class="keyword">class</span> <span class="title">AsyncDrawable</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">BitmapDrawable</span> &#123;</span></span><br><span class="line">  privite <span class="keyword">final</span> <span class="type">WeakReference</span>&lt;<span class="type">BitmapWorkerTask</span>&gt; bitmapWorkerTaskReference;</span><br><span class="line"></span><br><span class="line">  public <span class="type">AsyncDrawable</span>(<span class="type">Resources</span> res, <span class="type">Bitmap</span> bitmap, <span class="type">BitmapWorkerTask</span> bitmapWorkerTask) &#123;</span><br><span class="line">    <span class="keyword">super</span>(res, bitmap);</span><br><span class="line">    bitmapWorkerTaskReference = <span class="keyword">new</span> <span class="type">WeakReference</span>&lt;<span class="type">BitmapWorkerTask</span>&gt;(bitmapWorkerTask);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  public <span class="type">BitmapWorkerTask</span> getBitmapWorkerTask() &#123;</span><br><span class="line">    <span class="keyword">return</span> bitmapWorkerTaskReference.get();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在执行<code>BitmapWorkerTask</code>任务之前，你需要创建一个<code>AsyncDrawable</code>并且将其绑定到目标<code>ImageView</code>上。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> loadBitmap(<span class="keyword">int</span> resId, ImageView imageView) &#123;</span><br><span class="line">  <span class="keyword">if</span>(cancelPotentialWork(resId, imageView)) &#123;</span><br><span class="line">    <span class="keyword">final</span> BitmapWorkerTask <span class="keyword">task</span> = <span class="keyword">new</span> BitmapWorkerTask(imageView);</span><br><span class="line">    <span class="keyword">final</span> AsyncDrawable asyncDrawable = <span class="keyword">new</span> AsyncDrawable(getResources(), mPlaceHolderBitmap, <span class="keyword">task</span>);</span><br><span class="line">    imageView.setImageDrawable(asyncDrawable);</span><br><span class="line">    <span class="keyword">task</span>.execute(resId);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面示例代码中<code>cancelPotentialWork</code>方法的引用，是检查<code>ImageView</code>是否已经与别的任务相关联。如果是，它试图通过调用<code>cancel()</code>方法取消之前的任务。在少数情况下，新任务的数据与已存在任务的数据匹配并且没有什么进一步的需求发生。</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">boolean</span> <span class="title">cancelPotentialWork</span><span class="params">(<span class="keyword">int</span> data, ImageView imageView)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(bitmapWorkerTask != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> bitmapData = bitmapWorkerTask.data;</span><br><span class="line">    <span class="comment">// 如果bitmapData尚未设置or与新的data不同 if bitmapData is not yet set or it differs from the new data</span></span><br><span class="line">    <span class="keyword">if</span>(bitmapData == <span class="number">0</span> || bitmapData != data) &#123;</span><br><span class="line">      <span class="comment">// 取消之前的任务 cancel previous task</span></span><br><span class="line">      bitmapWorkerTask.cancel(<span class="keyword">true</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 同样的工作已经在进行 the same work is already in progress</span></span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// no task associated with the imageView, or an existing task was cancelled</span></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面用到的辅助方法<code>getBitmapWorkerTask()</code>，获取与特定<code>ImageView</code>关联的任务。</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="function">BitmapWorkerTask <span class="title">getBitmapWorkerTask</span><span class="params">(ImageView imageView)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(imageView != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">final</span> Drawable drawable = imageView.getDrawable();</span><br><span class="line">    <span class="keyword">if</span>(drawable <span class="keyword">instanceof</span> AsyncDrawable) &#123;</span><br><span class="line">      <span class="keyword">final</span> AsyncDrawable asyncDrawable = (AsyncDrawable)asyncDrawable;</span><br><span class="line">      <span class="function"><span class="keyword">return</span> asyncDrawable.<span class="title">getBitmapWorkerTask</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后一步更新<code>BitmapWorkerTask</code>中的<code>onPostExecute()</code>方法，检查任务是否已经取消，当前任务是否匹配关联的<code>ImageView</code>的任务。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BitmapWorkTask</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AsyncTask&lt;Integer</span>, <span class="title">void</span>, <span class="title">Bitmap&gt;</span> &#123;</span></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@override</span></span><br><span class="line">  <span class="keyword">protected</span> void onPostExecute(<span class="type">Bitmap</span> bitmap) &#123;</span><br><span class="line">    <span class="keyword">if</span>(isCancelled()) &#123;</span><br><span class="line">      bitmap = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(imageViewReference != <span class="literal">null</span> &amp;&amp; bitmap != <span class="literal">null</span>) &#123;</span><br><span class="line">      <span class="keyword">final</span> <span class="type">ImageView</span> imageView = imageViewReference.get();</span><br><span class="line">      <span class="keyword">final</span> <span class="type">BitmapWorkerTask</span> bitmapWorkerTask = getBitmapWorkerTask(imageView);</span><br><span class="line">      <span class="keyword">if</span>(<span class="keyword">this</span> == bitmapWorkerTask &amp;&amp; imageView != <span class="literal">null</span>) &#123;</span><br><span class="line">        imageView.setImageBitmap(bitmap);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个实现使用与<code>ListView</code>和<code>GridView</code>以及其他会回收其子view的组件。通常在你需要为<code>ImageView</code>设置图片时简单的调用<code>loadBitmap</code>。</p>
+<hr>
+<h1 id="缓存位图_caching_bitmaps">缓存位图 caching bitmaps</h1><p>加载一张图片到ui界面是比较简单的，如果你一次需要加载大量的图片那事情就变的很复杂了。在大多数情况下(像ListView，GridView，ViewPager这样的组件)，快速滚动到屏幕上的图像的总和，结合形成屏幕上的图像本质上是无限的。</p>
+<p>内存的使用是受组件控制的，如子view离开屏幕时就会将其回收。假如你没有保持任何持久的引用，GC(garbage collector)也会回收你加载的图片。这样是极好的，但是为了保持流畅性和快速的加载ui，你应该避免任何时候让它们重返屏幕这一频繁的过程。这通常要借助内存and磁盘缓存来处理，使得组件快速的重新加载处理过的图片。</p>
+<h2 id="内存缓存_use_a_memory_cache">内存缓存 use a memory cache</h2><p>内存缓存是以提供宝贵的应用内存为代价来快速访问位图的。</p>
+<p><code>LruCache</code>类特别适合用来缓存图片，使用强引用<code>LinkedHashMap</code>保持最近的引用对象，在缓存超过指定的大小之前益处最近最少使用的成员。</p>
+<blockquote>
+<p>注意：在过去，比较受欢迎的内存缓存实现是<code>软引用(SoftReference)</code>和<code>虚引用(WeakReference)</code>图片缓存，但是不推荐这样做。从Android2.3开始，GC收集软／虚引用更积极，这使得软／虚引用缓存变的无效。另外，在Android3.0以前，支持图片数据存储在native内存，它使得数据以一种不可预见的方式释放。这可能导致应用程序短暂的超出内存限制乃至崩溃。</p>
+</blockquote>
+<p>为了选择一个合适的<code>LruCache</code>大小，一下列出几点需要考虑的因素：</p>
+<ul>
+<li><p>你的活动／应用之外的内存密集型如何。how memory intensive is the rest of your activity and/or application?</p>
+</li>
+<li><p>屏幕一次显示多少图片？需要准备多少图片显示在屏幕上？</p>
+</li>
+<li><p>设备的屏幕尺寸和密度？比起Nexus S这样的设备，像Galaxy Nexus这样的高密度设备需要更大的缓存去加载相同数量的图片。</p>
+</li>
+<li><p>每个位图的大小和配置，以及其需要多少内存？</p>
+</li>
+<li><p>图片是否被频繁的访问？是否一些图片的访问频率高于另外一些？如果是，也许你应该保持一些常驻内存，或者为不同的图片组使用不同的<code>LruCache</code>对象，即维护多个LruCache对象。</p>
+</li>
+<li><p>你能保证质量与数量之间的平衡吗？有时存储大量的低质量图片是比较好的，然后在后台任务默默的加载高质量的版本。</p>
+</li>
+</ul>
+<p>没有具体的大小or准则适合所有的应用，由你来分析你的使用并想出一个合适的解决方案。缓存太小不仅没有好处而且会导致额外的开销，缓存太大会再次导致OutOfMemory异常或给你应用的剩余部分留下极小的内存。</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置LruCache</span></span><br><span class="line"><span class="keyword">private</span> LruCache&lt;<span class="keyword">String</span>, Bitmap&gt; mMemoryCache;</span><br><span class="line"></span><br><span class="line">@override</span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">// 得到最大的可用虚拟内存，超过这个值会抛出oom异常。</span></span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">int</span> maxMemory = (<span class="built_in">int</span>)(Runtime.getRuntime().maxMemory() / <span class="number">1024</span>);</span><br><span class="line">  <span class="comment">// 用最大内存的1/8作为缓存内存</span></span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">int</span> cacheSize = maxMemory / <span class="number">8</span>;</span><br><span class="line">  mMemoryCache = <span class="keyword">new</span> LruCache&lt;<span class="keyword">String</span>, Bitmap&gt;(cacheSize) &#123;</span><br><span class="line">    @override</span><br><span class="line">    <span class="keyword">protected</span> <span class="built_in">int</span> sizeOf(<span class="keyword">String</span> <span class="variable">key</span>, Bitmap bitmap) &#123;</span><br><span class="line">      <span class="keyword">return</span> bitmap.getByteCount() / <span class="number">1024</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> addBitmapToMemoryCache(<span class="keyword">String</span> <span class="variable">key</span>, Bitmap bitmap) &#123;</span><br><span class="line">  <span class="keyword">if</span>(getBitmapFromMemCache(<span class="variable">key</span>) == <span class="keyword">null</span>) &#123;</span><br><span class="line">    mMemoryCache.put(<span class="variable">key</span>, bitmap);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> Bitmap getBitmapFromMemCache(<span class="keyword">String</span> <span class="variable">key</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> mMemoryCache.<span class="built_in">get</span>(<span class="variable">key</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当将bitmap加载到imageView时，首先LruCache先执行检索。如果发现入口，会马上更新imageView，否则引发一个后台线程来处理图片。</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> loadBitmap(<span class="keyword">int</span> resId, ImageView imageView) &#123;</span><br><span class="line">  <span class="keyword">final</span> String imageKey = String.valueOf(resId);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">final</span> Bitmap bitmap = getBitmapFromMemCache(imageKey);</span><br><span class="line">  <span class="keyword">if</span>(bitmap != <span class="keyword">null</span>) &#123;</span><br><span class="line">    imageView.setImageBitmap(bitmap);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    imageView.setImageResource(R.drawable.image_placeholder);</span><br><span class="line">    BitmapWorkerTask <span class="keyword">task</span> = <span class="keyword">new</span> BitmapWorkerTask(imageView);</span><br><span class="line">    <span class="keyword">task</span>.execute(resId);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>BitmapWorkerTask也需要添加一个保存到缓存的入口：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BitmapWorkerTask</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">AsyncTask&lt;Integer</span>, <span class="title">Void</span>, <span class="title">Bitmap&gt;</span> &#123;</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">// decode image in background</span></span><br><span class="line">  <span class="annotation">@override</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="type">Bitmap</span> doInBackground(<span class="type">Integer</span>... params) &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">Bitmap</span> bitmap = decodeSampledBitmapFromResources(getResources(), params[<span class="number">0</span>], <span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">    addBitmapToMemoryCache(<span class="type">String</span>.valueOf(params[<span class="number">0</span>]), bitmap);</span><br><span class="line">    <span class="keyword">return</span> bitmap;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="磁盘缓存_use_a_disk_cache">磁盘缓存 use a disk cache</h2><p>内存缓存很实用，它可以加速访问最近浏览过的图片，然而你不能依赖于在缓存中可用的图片。像GridView这样的拥有大数据集的组件可以很容易的装满整个内存。你的应用可能因为打电话这样的任务二中断，当它退居后台的时候可能进程会被杀死，缓存会被销毁。一旦用户重新进入，你的应用会重新处理每一张图片。</p>
+<p>在这种情况下，可以使用磁盘缓存来持久化处理过的位图，当内存缓存中的图片不再可用时帮助减少图片加载时间。当然，从磁盘拉取图片比从内存拉去要慢，因此应该在后台线程执行，同样的，磁盘的读取时间是不可预知的。</p>
+<blockquote>
+<p>注意：如果图片的访问比较频繁的话，<code>ContentProvider</code>也许更合适。就像图像库应用，画廊应用。</p>
+</blockquote>
+<p>示例代码使用<code>DiskLruCache</code>类实现，这里是<a href="https://android.googlesource.com/platform/libcore/+/jb-mr2-release/luni/src/main/java/libcore/io/DiskLruCache.java" target="_blank" rel="external">源码</a>。</p>
+<p>这里修改了示例代码，除了已经存在的内存缓存还添加了磁盘缓存。</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// code</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>初始化磁盘高速缓存需要磁盘操作，因此不应该发生在主线程。既然如此，这就意味着有这样一种可能：缓存的访问在其初始化之前。为了解决此事，在上面的实现中，用一个锁对象确保了应用程序不能从磁盘缓存读取数据直到缓存被初始化。</p>
+</blockquote>
+<p>内存缓存在ui线程被检出，磁盘缓存在后台线程中被检出。磁盘操作永远不应该发生在ui线程。当图片被处理完，最终图片被添加到内存缓存and磁盘缓存中以便将来使用。</p>
+<h1 id="图片内存管理_managing_bitmap_memory">图片内存管理 managing bitmap memory</h1><p>除了Caching Bitmaps章节描述的步骤，还有一些做法可以促进垃圾回收和图片复用。这些推荐依赖于目标安卓版本。</p>
+<p>为本节课奠定基础，这里展示了安卓图片内存管理是怎么进化的：</p>
+<ul>
+<li><p>在安卓2.2及以前，当发生垃圾回收时，你应用的线程就会停止。从而导致滞后影响性能。安卓2.3添加了并发垃圾回收机制，这意味着图片不再被引用后尽可能快的被回收使用。</p>
+</li>
+<li><p>在安卓2.3.3及以前，支持将图片的像素数据存在native内存中，与位图本身分离，图片本身存储在虚拟机的堆内存中。存储在native内存中的像素数据不是以一种可预见的方法释放，这可能导致应用在短时间内超过内存限制并崩溃。在安卓3.0，图片的像素数据与图片关联，一起存在虚拟堆内存中。</p>
+</li>
+<li><p>TODO</p>
+</li>
+</ul>
+<h1 id="在ui中展示位图_displaying_bitmaps_in_your_ui">在ui中展示位图 displaying bitmaps in your ui</h1><h2 id="加载位图到viewpager的实现_load_bitmaps_into_a_ViewPager_implementation">加载位图到viewpager的实现 load bitmaps into a ViewPager implementation</h2><ul>
+<li><code>ViewPager</code>，<code>PagerAdapter</code>，<code>FragmentPagerAdapter</code>，<code>FragmentStatePagerAdapter</code>(能够自动的销毁或者保存viewpager中的fragments的状态，当它们离开屏幕的时候)</li>
+</ul>
+<blockquote>
+<p>当图片数量不多，并且确信不会超过内存限制时，建议使用<code>PagerAdapter</code> or <code>FragmentPagerAdapter</code></p>
+</blockquote>
+<p><a href="https://developer.android.com/training/displaying-bitmaps/display-bitmap.html#gridview" target="_blank" rel="external">这里一定要看官方给出的示例代码，显示图片时，为了更好的提高性能，就不要在ui线程加载图片到imageview，在后台线程执行加载操作</a></p>
+<h2 id="加载图片到gridview的实现_load_bitmaps_into_a_GridView_implementation">加载图片到gridview的实现 load bitmaps into a GridView implementation</h2><p>当显示图片集合时，在任一时刻显示多张图片到屏幕上，当用户滑动屏幕时需要准备多张图片显示时，使用gridview是很有用。当实现这种类型的控制时，你必须确保用户界面的流畅性，内存使用在控制之内，正确的处理并发(在gridview循环复用子view时)。</p>
+<p><a href="https://developer.android.com/training/displaying-bitmaps/display-bitmap.html#gridview" target="_blank" rel="external">同样看官方示例，不要在ui中加载图片，在后台线程加载</a></p>
+
+
+			
+            <section class="comment">
+<!-- 多说评论框 start -->
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+
+
+        </div>
+    </div>
+</article>
+
+
+    <footer id="footer">
+    <div id="bottom-tip">
+        senbaisang —— <small>cooooooooder</small>
+    </div>
+        <small>该博客由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动，搭载 <a href="https://github.com/XadillaX/hexadillax" target="_blank">Hexadillax</a> 主题</small><br />
+        <small>&copy; 2015 Sally</small>
+    </footer>
+
+    
+
+
+</body>
+</html>
+
+

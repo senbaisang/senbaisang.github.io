@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+    <meta name="author" content="Sally">
+    
+    <meta name="description" content="一个安安静静地伪技术宅">
+    
+    
+
+    
+    
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tag: activity生命周期 | senbaisang · cooooooooder</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+
+    <!-- Javascript -->
+    <script src="/js/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery.backstretch.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/headroom.min.js"></script>
+    <script src="/js/jquery.headroom.min.js"></script>
+    <script src="/js/common.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://senbaisang.github.io" title="senbaisang">senbaisang</a>
+            </div>
+
+            <div role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <p class="navbar-text pull-right">cooooooooder</p>
+
+                <ul class="nav navbar-nav">
+                    
+                    <li id="nav-index"><a href="/">首页</a></li>
+                    
+                    <li id="nav-archives"><a href="/archives">归档</a></li>
+                    
+                    <li id="nav-tags"><a href="/tags">标签</a></li>
+                    
+                    <li id="nav-categories"><a href="/categories">分类</a></li>
+                    
+                    <li id="nav-curriculumvitae"><a href="/curriculumvitae">关于</a></li>
+                    
+                    <li id="nav-links"><a href="/links">链接</a></li>
+                    
+                    <li id="nav-resources"><a href="/resources">资源</a></li>
+                    
+
+                    <li><a href="https://github.com/senbaisang" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+    var backRoot = "/images/background/";
+    var backArray = [ "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg",  ];
+
+    $(function() {
+        // page-id...
+        var pageId = "tags/activity生命周期/index.html";
+        pageId = pageId.substr(0, pageId.indexOf("/"));
+        if(pageId === "") pageId = "index";
+
+        $("#nav-" + pageId).addClass("active");
+    });
+    </script>
+
+
+  
+<div class="container archive-body">
+    <div class="row">
+        <div class="col-xs-3 well">
+            <div class="archive-title" >
+                <h2 class="tag-icon">activity生命周期</h2>
+                <div>
+                    <a href="/tags"><< 返回标签列表</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-9" id="tag-list-body">
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2016/04/19/android-activity-lifecycle/" title="android activity lifecycle (doc)">android activity lifecycle (doc)</a></h1>
+
+                    
+                        <p>暂停(pause your activity)一般在onPause()方法中，应该做一下几件事：
+停止动画以及一些消耗cpu的操作
+
+提交未保存的改动；那些在用户离开时，希望持久化的但是尚未保存的改动，例如：邮件草稿
+
+释放系统资源，例如：广播、传感器(gps)、其他用户不需要且</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2016-04-19 📝
+                       <!--  自豪地以 <a class="article-tag-link" href="/tags/activity生命周期/">activity生命周期</a> 唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+
+            
+        </div>
+    </div>
+
+    <div class="col-xs-19 all-list-box">
+    </div>
+</div>
+
+
+    <footer id="footer">
+    <div id="bottom-tip">
+        senbaisang —— <small>cooooooooder</small>
+    </div>
+        <small>该博客由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动，搭载 <a href="https://github.com/XadillaX/hexadillax" target="_blank">Hexadillax</a> 主题</small><br />
+        <small>&copy; 2015 Sally</small>
+    </footer>
+
+    
+
+
+</body>
+</html>
+
+

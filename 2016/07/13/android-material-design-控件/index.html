@@ -1,0 +1,202 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+    <meta name="author" content="Sally">
+    
+    <meta name="description" content="源码
+包括cardView, tabLayout, navigationView, recyclerView, inputLayout, dialogFragment, bottomBar.
+
+Bottom navigationdemo单纯底部的导航条。How to build android ma">
+    
+    
+
+    
+    
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>android - material design 控件 | senbaisang · cooooooooder</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+
+    <!-- Javascript -->
+    <script src="/js/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery.backstretch.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/headroom.min.js"></script>
+    <script src="/js/jquery.headroom.min.js"></script>
+    <script src="/js/common.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://senbaisang.github.io" title="senbaisang">senbaisang</a>
+            </div>
+
+            <div role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <p class="navbar-text pull-right">cooooooooder</p>
+
+                <ul class="nav navbar-nav">
+                    
+                    <li id="nav-index"><a href="/">首页</a></li>
+                    
+                    <li id="nav-archives"><a href="/archives">归档</a></li>
+                    
+                    <li id="nav-tags"><a href="/tags">标签</a></li>
+                    
+                    <li id="nav-categories"><a href="/categories">分类</a></li>
+                    
+                    <li id="nav-curriculumvitae"><a href="/curriculumvitae">关于</a></li>
+                    
+                    <li id="nav-links"><a href="/links">链接</a></li>
+                    
+                    <li id="nav-resources"><a href="/resources">资源</a></li>
+                    
+
+                    <li><a href="https://github.com/senbaisang" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+    var backRoot = "/images/background/";
+    var backArray = [ "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg",  ];
+
+    $(function() {
+        // page-id...
+        var pageId = "2016/07/13/android-material-design-控件/";
+        pageId = pageId.substr(0, pageId.indexOf("/"));
+        if(pageId === "") pageId = "index";
+
+        $("#nav-" + pageId).addClass("active");
+    });
+    </script>
+
+
+  <article class="post container">
+    <div class="well post-body first-post last-post">
+        <h1>android - material design 控件</h1>
+
+        <div class="time-info">
+发表于:<time datetime="2016-07-13T05:52:48.000Z" itemprop="datePublished">2016-07-13</time>，更新于:<time datetime="2017-08-26T14:04:16.000Z" itemprop="dateModified">2017-08-26</time>，By <a href="http://senbaisang.github.io" title="Sally">Sally</a>
+        </div>
+
+        <div class="post-body-inner">
+            <div id="toc" class="toc-article well">
+                <strong class="toc-title">大纲</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Bottom_navigation"><span class="toc-number">1.</span> <span class="toc-text">Bottom navigation</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#demo"><span class="toc-number">1.1.</span> <span class="toc-text">demo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#demo2"><span class="toc-number">1.2.</span> <span class="toc-text">demo2</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Buttons"><span class="toc-number">2.</span> <span class="toc-text">Buttons</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#usage"><span class="toc-number">2.1.</span> <span class="toc-text">usage</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#component_&_源码"><span class="toc-number">3.</span> <span class="toc-text">component & 源码</span></a></li></ol>
+            </div>
+
+            <p><a href="https://github.com/senbaisang/MatrialComDemo" target="_blank" rel="external">源码</a></p>
+<p>包括cardView, tabLayout, navigationView, recyclerView, inputLayout, dialogFragment, bottomBar.</p>
+<hr>
+<h1 id="Bottom_navigation">Bottom navigation</h1><h2 id="demo">demo</h2><p>单纯底部的导航条。<br><a href="http://androidgifts.com/build-android-material-design-bottom-navigation/" target="_blank" rel="external">How to build android material design bottom navigation (part 1)</a></p>
+<p>We need to add Material Design Support Library and Bottom Navigation library so we can ust it, so open build.gradle file and add the following code:</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line">  <span class="keyword">compile</span> <span class="keyword">fileTree</span>(dir: <span class="string">'libs'</span>, <span class="keyword">include</span>: [<span class="string">'*.jar'</span>])</span><br><span class="line">    testCompile <span class="string">'junit:junit:4.12'</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'com.android.support:appcompat-v7:23.4.0'</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'com.android.support:design:23.2.1'</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'com.roughike:bottom-bar:1.2.1'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>com.sally.servicedemo.design/ FiveButtonsActivity.class, five_buttons_activity.mxl, res/menu/five_buttons_menu.mxl, res/values/colors.xml</li>
+</ul>
+<p>we can customize the bottomBar icons color, theme, fonts and so on. through this method:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// <span class="operator"><span class="keyword">set</span> the color <span class="keyword">for</span> the active tab.</span><br><span class="line">mBottomBar.setActiveTabColor(<span class="string">"#aaaaaa"</span>);</span></span><br><span class="line"></span><br><span class="line">// <span class="operator"><span class="keyword">use</span> the dark theme.</span><br><span class="line">mBottomBar.useDarkTheme(<span class="literal">true</span>);</span></span><br><span class="line"></span><br><span class="line">// <span class="operator"><span class="keyword">use</span> custom <span class="built_in">text</span> appearance <span class="keyword">in</span> tab titles</span><br><span class="line">mBottomBar.setTextAppearance(R.<span class="keyword">style</span>.MyText);</span></span><br><span class="line"></span><br><span class="line">// <span class="operator"><span class="keyword">use</span> custom typeface thats located <span class="keyword">at</span> the <span class="string">'/src/main/assets'</span> <span class="keyword">directory</span>. <span class="keyword">if</span> <span class="keyword">using</span> <span class="keyword">with</span> custom <span class="built_in">text</span> appearance, <span class="keyword">set</span> the <span class="built_in">text</span> appearance <span class="keyword">first</span></span><br><span class="line">mBottomBar.setTypeFace(<span class="string">"MyFont.ttf"</span>);</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/material_bottom_navigation.png" alt="five_buttons_demo"> <img src="/images/material_bottom_navigation1.png" alt="five_buttons_demo"></p>
+<h2 id="demo2">demo2</h2><p>Bottom Navigation控制Fragment。<br><a href="http://androidgifts.com/build-android-material-design-bottom-navigation-part-2/" target="_blank" rel="external">How to build android material design bottom navigation (part 2)</a></p>
+<p><img src="/images/material_fragment_navigation.png" alt="fragment_navigation_demo"> <img src="/images/material_bottom_fragment1.png" alt="fragment_navigation_demo"></p>
+<h1 id="Buttons">Buttons</h1><ul>
+<li><p>Flat buttons:0dp</p>
+</li>
+<li><p>Raised buttons:2dp</p>
+</li>
+<li><p>Floating action button</p>
+</li>
+<li><p>Persistent footer buttons</p>
+</li>
+<li><p>Dropdown buttons : generic overflow dropdown button, segmented dropdown button, editable segmented dropdown button</p>
+</li>
+<li><p>Toggle buttons</p>
+</li>
+</ul>
+<h2 id="usage">usage</h2><p>Use<code>flat buttons</code>in dialogs;<br>Use<code>raised buttons</code>or flat buttons (depending on your layout) for inline buttons;<br>If your app requires actions to be persistent and readily available to the user, consider using the<code>floating action button</code>or<code>persistent footer buttons</code>.</p>
+<h1 id="component_&amp;_源码">component &amp; 源码</h1><p><a href="https://github.com/senbaisang/MatrialComDemo" target="_blank" rel="external">源码</a></p>
+<p>包括cardView, tabLayout, navigationView, recyclerView, inputLayout, dialogFragment, bottomBar.</p>
+<p><img src="/images/material_design_demo.png" alt="demo"></p>
+<ul>
+<li><p>cardView<br><img src="/images/material_card_view.png" alt="card_view"></p>
+</li>
+<li><p>tabLayout</p>
+</li>
+</ul>
+<p>viewPager.setAdapter(adapeter);<br>tabLayout.setTabMode(TabLayout.MODE_FIXED | TabLayout.MODE_SCROLLABLE); // 导航条是否可以滚动<br>tabLayout.setupWithViewPager(mViewPager); // tabLayout与viewPager关联<br>tabLayout.setTabsFromPagerAdapter(adapter); // tabLayout设置adapter，与viewPager是同一个适配器，适配去需要重写<code>getPageTitle()</code>方法，不然导航条没标题😂</p>
+<p><img src="/images/material_tablayout.png" alt="tab_layout"></p>
+<ul>
+<li>navigationView</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="tag">android</span><span class="class">.support</span><span class="class">.design</span><span class="class">.widget</span><span class="class">.Navigation</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="rule"><span class="attribute">android</span>:<span class="value">layout_gravity=<span class="string">"left"</span></span><br><span class="line">  android:fitsSystemWindows=<span class="string">"true"</span></span><br><span class="line">  app:headerLayout=<span class="string">"@layout/header_layout"</span></span><br><span class="line">  app:menu=<span class="string">"@layout/menu_navigation"</span> /&gt;</span></span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/material_drawer_layout.png" alt="naviagtion_view"></p>
+<ul>
+<li>recyclerView</li>
+</ul>
+<p><code>这里就很神奇了</code>这个部分AppBarLayout可以跟随RecyclerView的滑动显示或隐藏，但是根布局需要使用<code>android.support.design.widget.CoordinatorLayout</code></p>
+<p><img src="/images/material_recycler_view.png" alt="recycler_view"></p>
+<ul>
+<li>textInputLayout &amp; dialogFragment</li>
+</ul>
+<p>提示效果美美哒输入框<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">mTextInputLayout.setHint(<span class="string">"hint ..... "</span>);</span><br><span class="line"><span class="comment">// 可以获得其内部的edittext</span></span><br><span class="line">mEditText = mTextInputLayout.getEditText();</span><br><span class="line"><span class="comment">// 添加监听事件</span></span><br><span class="line">mEditText.addTextChangedListener(<span class="keyword">new</span> TextWatcher() &#123;</span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">beforeTextChanged</span><span class="params">(CharSequence s, <span class="keyword">int</span> start, <span class="keyword">int</span> count, <span class="keyword">int</span> after)</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onTextChanged</span><span class="params">(CharSequence s, <span class="keyword">int</span> start, <span class="keyword">int</span> before, <span class="keyword">int</span> count)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(s.length() &gt; <span class="number">8</span> || s.length() &lt; <span class="number">6</span>) &#123;</span><br><span class="line">      mTextInputLayout.setErrorEnabled(<span class="keyword">true</span>);</span><br><span class="line">      mTextInputLayout.setError(<span class="string">"请将长度保持再6-8之间"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      mTextInputLayout.setErrorEnabled(<span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">afterTextChanged</span><span class="params">(Editable s)</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>可以通过继承DialogFragment创建对话框，很简单，加载一个布局就行了<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">DialogFragment1</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">DialogFragment</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Nullable</span></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    public <span class="type">View</span> onCreateView(<span class="type">LayoutInflater</span> inflater, <span class="type">ViewGroup</span> container, <span class="type">Bundle</span> savedInstanceState) &#123;</span><br><span class="line">      <span class="type">View</span> view = inflater.inflate(<span class="type">R</span>.layout.dialog_fragment1, container, <span class="literal">false</span>);</span><br><span class="line">      <span class="keyword">return</span> view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>也可以定制能交互的dialog<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 重写onCreawteDialog方法，使用AlertDialog.builder生产并返回一个Dialog</span></span><br><span class="line"><span class="annotation">@NonNull</span></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function">Dialog <span class="title">onCreateDialog</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">final</span> View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_fragment2, <span class="keyword">null</span>);</span><br><span class="line">  mEtName = (EditText) view.findViewById(R.id.id_dialog_et_name);</span><br><span class="line">  mEtPassword = (EditText) view.findViewById(R.id.id_dialog_et_password);</span><br><span class="line"></span><br><span class="line">  AlertDialog.Builder builder = <span class="keyword">new</span> AlertDialog.Builder(getActivity());</span><br><span class="line">  builder.setView(view)</span><br><span class="line">    .setNegativeButton(<span class="string">"CANCEL"</span>, <span class="keyword">null</span>)</span><br><span class="line">    .setPositiveButton(<span class="string">"LOGIN"</span>, <span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialog, <span class="keyword">int</span> which)</span> </span>&#123;</span><br><span class="line">          <span class="comment">// 回调宿主activity的响应操作</span></span><br><span class="line">          LoginListener listener = (LoginListener) getActivity();</span><br><span class="line">          listener.onLoginInputCompare(mEtName.getText().toString(), mEtPassword.getText().toString());</span><br><span class="line">        &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">  <span class="function"><span class="keyword">return</span> builder.<span class="title">create</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 暴露一个接口给activity实现</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LoginListener</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">onLoginInputCompare</span><span class="params">(String userName, String password)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/images/material_input_layout.png" alt="input_layout"> <img src="/images/material_dialog_fragment.png" alt="dialog_fragment"></p>
+
+
+			
+            <section class="comment">
+<!-- 多说评论框 start -->
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+
+
+        </div>
+    </div>
+</article>
+
+
+    <footer id="footer">
+    <div id="bottom-tip">
+        senbaisang —— <small>cooooooooder</small>
+    </div>
+        <small>该博客由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动，搭载 <a href="https://github.com/XadillaX/hexadillax" target="_blank">Hexadillax</a> 主题</small><br />
+        <small>&copy; 2015 Sally</small>
+    </footer>
+
+    
+
+
+</body>
+</html>
+
+

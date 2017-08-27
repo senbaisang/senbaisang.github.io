@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+    <meta name="author" content="Sally">
+    
+    <meta name="description" content="省市区三级联动菜单demoview : 需要select选框12345&amp;lt;%= f.select :service_area_province_id, options_from_collection_for_select(Province.all, :code, :name, @supervis">
+    
+    
+
+    
+    
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>rails 联动菜单 | senbaisang · cooooooooder</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+
+    <!-- Javascript -->
+    <script src="/js/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery.backstretch.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/headroom.min.js"></script>
+    <script src="/js/jquery.headroom.min.js"></script>
+    <script src="/js/common.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://senbaisang.github.io" title="senbaisang">senbaisang</a>
+            </div>
+
+            <div role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <p class="navbar-text pull-right">cooooooooder</p>
+
+                <ul class="nav navbar-nav">
+                    
+                    <li id="nav-index"><a href="/">首页</a></li>
+                    
+                    <li id="nav-archives"><a href="/archives">归档</a></li>
+                    
+                    <li id="nav-tags"><a href="/tags">标签</a></li>
+                    
+                    <li id="nav-categories"><a href="/categories">分类</a></li>
+                    
+                    <li id="nav-curriculumvitae"><a href="/curriculumvitae">关于</a></li>
+                    
+                    <li id="nav-links"><a href="/links">链接</a></li>
+                    
+                    <li id="nav-resources"><a href="/resources">资源</a></li>
+                    
+
+                    <li><a href="https://github.com/senbaisang" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+    var backRoot = "/images/background/";
+    var backArray = [ "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg",  ];
+
+    $(function() {
+        // page-id...
+        var pageId = "2015/12/10/rails-联动菜单/";
+        pageId = pageId.substr(0, pageId.indexOf("/"));
+        if(pageId === "") pageId = "index";
+
+        $("#nav-" + pageId).addClass("active");
+    });
+    </script>
+
+
+  <article class="post container">
+    <div class="well post-body first-post last-post">
+        <h1>rails 联动菜单</h1>
+
+        <div class="time-info">
+发表于:<time datetime="2015-12-10T01:52:50.000Z" itemprop="datePublished">2015-12-10</time>，更新于:<time datetime="2017-08-26T14:04:16.000Z" itemprop="dateModified">2017-08-26</time>，By <a href="http://senbaisang.github.io" title="Sally">Sally</a>
+        </div>
+
+        <div class="post-body-inner">
+            <div id="toc" class="toc-article well">
+                <strong class="toc-title">大纲</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#省市区三级联动菜单demo"><span class="toc-number">1.</span> <span class="toc-text">省市区三级联动菜单demo</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#view_:_需要select选框"><span class="toc-number">1.1.</span> <span class="toc-text">view : 需要select选框</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#此处，脸熟两个方法"><span class="toc-number">1.1.1.</span> <span class="toc-text">此处，脸熟两个方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#view_:_使用js来做联动"><span class="toc-number">1.2.</span> <span class="toc-text">view : 使用js来做联动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#controller_:_js中需要调用controller中的方法，来获得可选值"><span class="toc-number">1.3.</span> <span class="toc-text">controller : js中需要调用controller中的方法，来获得可选值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后，还要添加一个该action的视图，不然会报错"><span class="toc-number">1.4.</span> <span class="toc-text">最后，还要添加一个该action的视图，不然会报错</span></a></li></ol></li></ol>
+            </div>
+
+            <h1 id="省市区三级联动菜单demo">省市区三级联动菜单demo</h1><h2 id="view_:_需要select选框">view : 需要select选框</h2><figure class="highlight erb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span>&lt;%=<span class="ruby"> f.select <span class="symbol">:service_area_province_id</span>, options_from_collection_for_select(<span class="constant">Province</span>.all, <span class="symbol">:code</span>, <span class="symbol">:name</span>, <span class="variable">@supervisor</span>.service_area_province_id), <span class="symbol">prompt:</span> <span class="string">'--省份--'</span> </span>%&gt;<span class="xml"></span><br><span class="line"></span><br><span class="line"></span>&lt;%=<span class="ruby"> f.select <span class="symbol">:service_area_city_id</span>, options_from_collection_for_select([], <span class="symbol">:code</span>, <span class="symbol">:name</span>, <span class="variable">@supervisor</span>.service_area_city_id), <span class="symbol">prompt:</span> <span class="string">'--市区--'</span> </span>%&gt;<span class="xml"></span><br><span class="line"></span><br><span class="line"></span>&lt;%=<span class="ruby"> f.select <span class="symbol">:service_area_district_id</span>, options_from_collection_for_select([], <span class="symbol">:code</span>, <span class="symbol">:name</span>, <span class="variable">@supervisor</span>.service_area_distrikt_id), <span class="symbol">prompt:</span> <span class="string">'--区县--'</span> </span>%&gt;<span class="xml"></span></span><br></pre></td></tr></table></figure>
+<h3 id="此处，脸熟两个方法">此处，脸熟两个方法</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># <span class="tag">params</span>: <span class="tag">container</span> 可选项，数组形式    <span class="tag">eg</span>:<span class="attr_selector">[['确定', true]</span>, <span class="attr_selector">['取消', false]</span>];  <span class="attribute">selected</span>:默认选项</span><br><span class="line"><span class="function">options_from_collection_for_select</span>(container, selected)</span><br><span class="line"></span><br><span class="line"># <span class="attribute">params</span>: collection 可选项，对象  <span class="attribute">eg</span>:<span class="variable">@people</span> or People.all  控件value值  控件text值  默认选择项</span><br><span class="line"><span class="function">options_for_select</span>(collection, value_method, text_method, selected)</span><br><span class="line"></span><br><span class="line"># 注: People.list 的返回值  [[<span class="string">'zhangsan'</span>, <span class="number">22</span>], [<span class="string">'lisi'</span>, <span class="number">33</span>], [<span class="string">'wangwu'</span>, <span class="number">44</span>]]</span><br><span class="line">这可能就是两个控件可以互相替换的桥梁吧。。。</span><br></pre></td></tr></table></figure>
+<h2 id="view_:_使用js来做联动">view : 使用js来做联动</h2><ul>
+<li><p>这里控件的id，从页面自己找一下子哈</p>
+</li>
+<li><p>控件的<code>change</code>事件</p>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#supervisor_service_area_province_id'</span>).change(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  $.get(<span class="string">'/cities/get_options_by_province_code?id='</span>+$(<span class="keyword">this</span>).val(), <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    $(<span class="string">'#supervisor_service_area_city_id'</span>).html(data).trigger(<span class="string">'change'</span>);    <span class="comment">//触发自身的change事件</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$(<span class="string">'#supervisor_service_area_city_id'</span>).change(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  $.get(<span class="string">'/cities/get_options_by_city_code?id='</span>+$(<span class="keyword">this</span>).val(), <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">    $(<span class="string">'#supervisor_service_area_district_id'</span>).html(data);    <span class="comment">//触发自身的change事件</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="controller_:_js中需要调用controller中的方法，来获得可选值">controller : js中需要调用controller中的方法，来获得可选值</h2><ul>
+<li>这里的action可以写在具体的某个模型对象的controller中，也可以专门写在一个公共的地方，如下：专门定义在一个公共地方</li>
+</ul>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- encoding : utf-8 -*-</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommonsController</span> <span class="inheritance">&lt; <span class="parent">ApplicationController</span></span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">get_options_by_province_code</span></span></span><br><span class="line">    <span class="variable">@cities</span> = <span class="constant">City</span>.where <span class="symbol">:province_code</span> =&gt; params[<span class="symbol">:province_code</span>]</span><br><span class="line">    render <span class="symbol">:layout</span> =&gt; <span class="literal">false</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span>  <span class="title">get_options_by_city_code</span></span></span><br><span class="line">     <span class="variable">@districts</span> = <span class="constant">District</span>.where <span class="symbol">:city_code</span> =&gt; params[<span class="symbol">:city_code</span>]</span><br><span class="line">     render <span class="symbol">:layout</span> =&gt; <span class="literal">false</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<h2 id="最后，还要添加一个该action的视图，不然会报错">最后，还要添加一个该action的视图，不然会报错</h2><ul>
+<li><p>no template…什么的</p>
+</li>
+<li><p>get_options_by_province_code.html.erb</p>
+</li>
+<li><p>get_options_by_city_code.html.erb</p>
+</li>
+</ul>
+<figure class="highlight erb"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml"></span>&lt;%=<span class="ruby"> options_from_collection_for_select <span class="variable">@cities</span>, <span class="symbol">:code</span>, <span class="symbol">:name</span> </span>%&gt;<span class="xml"></span><br><span class="line"></span><br><span class="line"></span>&lt;%=<span class="ruby"> options_from_collection_for_select <span class="variable">@districts</span>, <span class="symbol">:code</span>, <span class="symbol">:name</span> </span>%&gt;<span class="xml"></span></span><br></pre></td></tr></table></figure>
+
+
+			
+            <section class="comment">
+<!-- 多说评论框 start -->
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+
+
+        </div>
+    </div>
+</article>
+
+
+    <footer id="footer">
+    <div id="bottom-tip">
+        senbaisang —— <small>cooooooooder</small>
+    </div>
+        <small>该博客由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动，搭载 <a href="https://github.com/XadillaX/hexadillax" target="_blank">Hexadillax</a> 主题</small><br />
+        <small>&copy; 2015 Sally</small>
+    </footer>
+
+    
+
+
+</body>
+</html>
+
+

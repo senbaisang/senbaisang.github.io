@@ -1,0 +1,267 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+    <meta name="author" content="Sally">
+    
+    <meta name="description" content="一个安安静静地伪技术宅">
+    
+    
+
+    
+    
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Archives: 2016/1 | senbaisang · cooooooooder</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+
+    <!-- Javascript -->
+    <script src="/js/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery.backstretch.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/headroom.min.js"></script>
+    <script src="/js/jquery.headroom.min.js"></script>
+    <script src="/js/common.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://senbaisang.github.io" title="senbaisang">senbaisang</a>
+            </div>
+
+            <div role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <p class="navbar-text pull-right">cooooooooder</p>
+
+                <ul class="nav navbar-nav">
+                    
+                    <li id="nav-index"><a href="/">首页</a></li>
+                    
+                    <li id="nav-archives"><a href="/archives">归档</a></li>
+                    
+                    <li id="nav-tags"><a href="/tags">标签</a></li>
+                    
+                    <li id="nav-categories"><a href="/categories">分类</a></li>
+                    
+                    <li id="nav-curriculumvitae"><a href="/curriculumvitae">关于</a></li>
+                    
+                    <li id="nav-links"><a href="/links">链接</a></li>
+                    
+                    <li id="nav-resources"><a href="/resources">资源</a></li>
+                    
+
+                    <li><a href="https://github.com/senbaisang" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+    var backRoot = "/images/background/";
+    var backArray = [ "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg",  ];
+
+    $(function() {
+        // page-id...
+        var pageId = "archives/2016/01/index.html";
+        pageId = pageId.substr(0, pageId.indexOf("/"));
+        if(pageId === "") pageId = "index";
+
+        $("#nav-" + pageId).addClass("active");
+    });
+    </script>
+
+
+  
+
+<div class="container archive-body">
+    <div class="row">
+        <div class="col-xs-2 well">
+            <h2 class="archive-icon">2016/1</h2>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">十月 2015</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+
+        <div class="col-xs-10">
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2016/01/12/android-volley的使用/" title="android - volley的使用">android - volley的使用</a></h1>
+
+                    
+                        <p>Android 网络通信框架 Volley几个特点
+支持 get post 网络图片 等的高效异步处理请求
+
+可以对请求进行排序
+
+支持网络请求缓存
+
+支持多级别取消请求
+
+与activity生命周期联动
+
+不适合数据的上传和下载（如果需要上传和下载，选用别的，eg：okhttp</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2016-01-12 📝
+                        <!-- 自豪地以 <a class="article-tag-link" href="/tags/volley/">volley</a> 唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2016/01/11/rails中的资源文件js、css以及layout/" title="rails中的资源文件js、css以及layout">rails中的资源文件js、css以及layout</a></h1>
+
+                    
+                        <p>先说说资源文件的配置位置
+在rails项目中，assets/ 目录下存放资源文件，一般的，我们的图片，js，css文件分别放在 assets/ 目录下的image/ js/ css/ 这三个文件夹中
+
+并且在application.css 和 application.js文件中，</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2016-01-11 📝
+                        <!-- 自豪地唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2016/01/11/ruby-工具方法的定义、使用/" title="ruby-工具方法的定义、使用">ruby-工具方法的定义、使用</a></h1>
+
+                    
+                        <p>先说说接触到现在的理解下面，有很多我感觉，深入理解后再补充在models/xxx.rb中定义方法
+在module中定义的方法，可以在controller 以及 view 中调用
+
+我感觉：在module中定义的方法，就像是find where方法是属于某个model的，所以这样子</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2016-01-11 📝
+                        <!-- 自豪地唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2016/01/07/titanium-聊天module的使用/" title="titanium-聊天module的使用">titanium-聊天module的使用</a></h1>
+
+                    
+                        <p>聊天module
+在titanium中使用环信sdk实现聊天，这里有一个封装好的module。
+
+作者：明星
+
+module
+
+demo
+
+
+引用module注意事项
+在demo中，有一个platform/文件夹，里面放了些乱七八糟的东西，这个文件夹，一定要拷贝到自己的项目中，否</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2016-01-07 📝
+                        <!-- 自豪地唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2016/01/07/hexo-gitpage搭建博客/" title="hexo+gitpage搭建博客">hexo+gitpage搭建博客</a></h1>
+
+                    
+                        <p>虽然不太明白，配来配去的是在干什么，但是能跑出来了。。。
+
+用hexo搭建博客，教程在这里
+
+域名修改DNS地址，看这里，Godaddy为例
+
+自定义域名
+
+关于自定义域名
+
+顶级域名和二级域名的配置
+
+二级域名需要CNAME
+
+配置CNAME
+
+所有可能遇到的问题
+
+目前认为：</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2016-01-07 📝
+                        <!-- 自豪地以 <a class="article-tag-link" href="/tags/hexo/">hexo</a> 唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+
+            
+        </div>
+    </div>
+</div>
+
+<script>
+$(function() {
+    $(".archive-list-count").addClass("badge");
+});
+</script>
+
+
+    <footer id="footer">
+    <div id="bottom-tip">
+        senbaisang —— <small>cooooooooder</small>
+    </div>
+        <small>该博客由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动，搭载 <a href="https://github.com/XadillaX/hexadillax" target="_blank">Hexadillax</a> 主题</small><br />
+        <small>&copy; 2015 Sally</small>
+    </footer>
+
+    
+
+
+</body>
+</html>
+
+

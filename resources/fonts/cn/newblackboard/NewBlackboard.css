@@ -1,0 +1,11 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "NewBlackboard";
+  src: url("新蒂黑板报体.woff2") format("woff2"),
+       url("新蒂黑板报体.woff") format("woff"),
+       url("新蒂黑板报体.ttf") format("truetype"),
+       url("新蒂黑板报体.eot") format("embedded-opentype"),
+       url("新蒂黑板报体.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}

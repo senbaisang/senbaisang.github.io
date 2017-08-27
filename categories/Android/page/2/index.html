@@ -1,0 +1,310 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+    <meta name="author" content="Sally">
+    
+    <meta name="description" content="一个安安静静地伪技术宅">
+    
+    
+
+    
+    
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Category: Android | senbaisang · cooooooooder</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+
+    <!-- Javascript -->
+    <script src="/js/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery.backstretch.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/headroom.min.js"></script>
+    <script src="/js/jquery.headroom.min.js"></script>
+    <script src="/js/common.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://senbaisang.github.io" title="senbaisang">senbaisang</a>
+            </div>
+
+            <div role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <p class="navbar-text pull-right">cooooooooder</p>
+
+                <ul class="nav navbar-nav">
+                    
+                    <li id="nav-index"><a href="/">首页</a></li>
+                    
+                    <li id="nav-archives"><a href="/archives">归档</a></li>
+                    
+                    <li id="nav-tags"><a href="/tags">标签</a></li>
+                    
+                    <li id="nav-categories"><a href="/categories">分类</a></li>
+                    
+                    <li id="nav-curriculumvitae"><a href="/curriculumvitae">关于</a></li>
+                    
+                    <li id="nav-links"><a href="/links">链接</a></li>
+                    
+                    <li id="nav-resources"><a href="/resources">资源</a></li>
+                    
+
+                    <li><a href="https://github.com/senbaisang" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+    var backRoot = "/images/background/";
+    var backArray = [ "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg",  ];
+
+    $(function() {
+        // page-id...
+        var pageId = "categories/Android/page/2/index.html";
+        pageId = pageId.substr(0, pageId.indexOf("/"));
+        if(pageId === "") pageId = "index";
+
+        $("#nav-" + pageId).addClass("active");
+    });
+    </script>
+
+
+  
+<div class="container archive-body">
+    <div class="row">
+        <div class="col-xs-3 well">
+            <div class="archive-title" >
+                <h2 class="tag-icon">Android</h2>
+                <div>
+                    <a href="/categories"><< 返回标签列表</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-9" id="category-list-body">
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2016/04/13/android-manifest文件描述/" title="android manifest文件描述">android manifest文件描述</a></h1>
+
+                    
+                        <p>app/build.gradle 文件
+defaultConfig settings
+
+1234compiledSdkVersion - is the platform version against which you will compile your app.applica</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2016-04-13 📝
+                        <!-- 自豪地以 <a class="article-tag-link" href="/tags/android-manifest/">android_manifest</a> 唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2016/03/27/android-单例模式/" title="android - 单例模式">android - 单例模式</a></h1>
+
+                    
+                        <p>懒汉模式一般用的比较多的，双重锁判断的
+注意关键字volatile
+
+1234567891011121314public class Singleton &amp;#123;  private volatile static Singleton instance;  private Si</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2016-03-27 📝
+                        <!-- 自豪地唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2016/01/12/android-volley的使用/" title="android - volley的使用">android - volley的使用</a></h1>
+
+                    
+                        <p>Android 网络通信框架 Volley几个特点
+支持 get post 网络图片 等的高效异步处理请求
+
+可以对请求进行排序
+
+支持网络请求缓存
+
+支持多级别取消请求
+
+与activity生命周期联动
+
+不适合数据的上传和下载（如果需要上传和下载，选用别的，eg：okhttp</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2016-01-12 📝
+                        <!-- 自豪地以 <a class="article-tag-link" href="/tags/volley/">volley</a> 唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2015/12/13/android-下拉刷新listview/" title="android 下拉刷新listview">android 下拉刷新listview</a></h1>
+
+                    
+                        <p>知识点控件的方法
+addHeaderView() 这个方法必须在setAdapter() 方法之前调用。
+
+在隐藏控件的时候，除了可以使用invisiblei() 之外，将控件的paddingTop()设置为控件高度的负值也可以隐藏
+
+getHeight() 和 getMeasu</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2015-12-13 📝
+                        <!-- 自豪地唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2015/12/12/android-自定义属性/" title="android 自定义属性">android 自定义属性</a></h1>
+
+                    
+                        <p>创建一个xml文件
+常用命名为attrs.xml，该文件默认会放在res/values/目录下
+
+123456789101112&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;resources&amp;gt;  &amp;lt;!--  声明属性</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2015-12-12 📝
+                        <!-- 自豪地唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2015/11/29/android的junit测试/" title="android的junit测试">android的junit测试</a></h1>
+
+                    
+                        <p>需要的权限12345678# 在manifest标签中，添加&amp;lt;instrumentation  android:name=&quot;android.test.InstrumentationTestRunner&quot;  android:targetPackage=&quot;应用程序包名&quot; /&amp;g</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2015-11-29 📝
+                        <!-- 自豪地唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2015/11/29/序列化和xmlPull解析/" title="序列化和xmlPull解析">序列化和xmlPull解析</a></h1>
+
+                    
+                        <p>xml文件示例1234567&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;true&quot;?&amp;gt;&amp;lt;persons&amp;gt;  &amp;lt;person id=&quot;0&quot;&amp;gt;    &amp;lt;name&amp;gt;zhangsan&amp;l</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2015-11-29 📝
+                        <!-- 自豪地唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+            <article class="post">
+                <div class="jumbotron">
+                    <h1><a href="/2015/11/28/提高数据库sql的执行效率/" title="提高数据库sql的执行效率(使用事务)">提高数据库sql的执行效率(使用事务)</a></h1>
+
+                    
+                        <p>操作数据库
+通常，我们在操作数据库的时候，每执行一个sql语句时，都会打开数据库，关闭数据库，这无疑浪费了很多时间
+
+那么，我们也可以借用事务来完成某些操作，省略了中途频繁打开数据库关闭数据库的操作，可以节省不少时间
+
+
+假设，我们往数据库存储数据
+我们需要存储1w条数据，就会用</p>
+                    
+
+                    <p class="say-title">
+                        —— <img src="/images/avatar.gif" class="img-circle index-post-avatar" />
+                        <a href="http://senbaisang.github.io" target="_blank" title="Sally">Sally</a>
+                        于 2015-11-28 📝
+                        <!-- 自豪地唠嗑 -->
+                    </p>
+                </div>
+            </article>
+            
+
+            
+            <div class="pagination-div">
+                <div class="well">
+                <a class="extend prev" rel="prev" href="/categories/Android/">&laquo; Prev</a><a class="page-number" href="/categories/Android/">1</a><span class="page-number current">2</span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="col-xs-19 all-list-box">
+    </div>
+</div>
+
+
+    <footer id="footer">
+    <div id="bottom-tip">
+        senbaisang —— <small>cooooooooder</small>
+    </div>
+        <small>该博客由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动，搭载 <a href="https://github.com/XadillaX/hexadillax" target="_blank">Hexadillax</a> 主题</small><br />
+        <small>&copy; 2015 Sally</small>
+    </footer>
+
+    
+
+
+</body>
+</html>
+
+

@@ -1,0 +1,177 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+    <meta name="author" content="Sally">
+    
+    <meta name="description" content="创建一个xml文件
+常用命名为attrs.xml，该文件默认会放在res/values/目录下
+
+123456789101112&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt;&amp;lt;resources&amp;gt;  &amp;lt;!--  声明属性集名称 --&amp;gt;">
+    
+    
+
+    
+    
+    
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>android 自定义属性 | senbaisang · cooooooooder</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+    
+
+    <!-- Javascript -->
+    <script src="/js/jquery-2.1.0.min.js"></script>
+    <script src="/js/jquery.backstretch.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/headroom.min.js"></script>
+    <script src="/js/jquery.headroom.min.js"></script>
+    <script src="/js/common.js"></script>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://senbaisang.github.io" title="senbaisang">senbaisang</a>
+            </div>
+
+            <div role="navigation" class="collapse navbar-collapse bs-navbar-collapse">
+                <p class="navbar-text pull-right">cooooooooder</p>
+
+                <ul class="nav navbar-nav">
+                    
+                    <li id="nav-index"><a href="/">首页</a></li>
+                    
+                    <li id="nav-archives"><a href="/archives">归档</a></li>
+                    
+                    <li id="nav-tags"><a href="/tags">标签</a></li>
+                    
+                    <li id="nav-categories"><a href="/categories">分类</a></li>
+                    
+                    <li id="nav-curriculumvitae"><a href="/curriculumvitae">关于</a></li>
+                    
+                    <li id="nav-links"><a href="/links">链接</a></li>
+                    
+                    <li id="nav-resources"><a href="/resources">资源</a></li>
+                    
+
+                    <li><a href="https://github.com/senbaisang" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+    var backRoot = "/images/background/";
+    var backArray = [ "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg",  ];
+
+    $(function() {
+        // page-id...
+        var pageId = "2015/12/12/android-自定义属性/";
+        pageId = pageId.substr(0, pageId.indexOf("/"));
+        if(pageId === "") pageId = "index";
+
+        $("#nav-" + pageId).addClass("active");
+    });
+    </script>
+
+
+  <article class="post container">
+    <div class="well post-body first-post last-post">
+        <h1>android 自定义属性</h1>
+
+        <div class="time-info">
+发表于:<time datetime="2015-12-12T09:21:19.000Z" itemprop="datePublished">2015-12-12</time>，更新于:<time datetime="2017-08-26T14:04:16.000Z" itemprop="dateModified">2017-08-26</time>，By <a href="http://senbaisang.github.io" title="Sally">Sally</a>
+        </div>
+
+        <div class="post-body-inner">
+            <div id="toc" class="toc-article well">
+                <strong class="toc-title">大纲</strong>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#创建一个xml文件"><span class="toc-number">1.</span> <span class="toc-text">创建一个xml文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#format_的常用类型"><span class="toc-number">1.1.</span> <span class="toc-text">format 的常用类型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在布局文件中使用"><span class="toc-number">2.</span> <span class="toc-text">在布局文件中使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义自己的命名空间"><span class="toc-number">2.1.</span> <span class="toc-text">定义自己的命名空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#布局文件中使用"><span class="toc-number">2.2.</span> <span class="toc-text">布局文件中使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在自定义控件的方法中，获得(自定义的)属性和值"><span class="toc-number">3.</span> <span class="toc-text">在自定义控件的方法中，获得(自定义的)属性和值</span></a></li></ol>
+            </div>
+
+            <h1 id="创建一个xml文件">创建一个xml文件</h1><ul>
+<li>常用命名为<code>attrs.xml</code>，该文件默认会放在<code>res/values/</code>目录下</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">resources</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--  声明属性集名称 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">declare-styleable</span> <span class="attribute">name</span>=<span class="value">"MyView"</span> &gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--  声明属性 及其 类型 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">attr</span> <span class="attribute">name</span>=<span class="value">"test_id"</span> <span class="attribute">format</span>=<span class="value">"integer"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">attr</span> <span class="attribute">name</span>=<span class="value">"test_msg"</span> <span class="attribute">format</span>=<span class="value">"string"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">attr</span> <span class="attribute">name</span>=<span class="value">"test_bitmap"</span> <span class="attribute">format</span>=<span class="value">"reference"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;/<span class="title">declare-resources</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="format_的常用类型">format 的常用类型</h2><ul>
+<li><p>reference   引用</p>
+</li>
+<li><p>color       颜色</p>
+</li>
+<li><p>boolean     布尔值</p>
+</li>
+<li><p>dimension   尺寸值</p>
+</li>
+<li><p>float       浮点值</p>
+</li>
+<li><p>integer     整形值</p>
+</li>
+<li><p>string      字符值</p>
+</li>
+<li><p>enum        枚举值</p>
+</li>
+</ul>
+<h1 id="在布局文件中使用">在布局文件中使用</h1><ul>
+<li>eg:</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- xmlns : xml name space 所以，我们在使用自定义属性的时候，需要定义命名空间--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">LinearLayout</span> <span class="attribute">xmlns:android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">  <span class="attribute">xmlns:tools</span>=<span class="value">"http://schemas.android.com/tools"</span></span><br><span class="line">  <span class="attribute">android:layout_width</span>=<span class="value">"match_parent"</span></span><br><span class="line">  <span class="attribute">android:layout_height</span>=<span class="value">"match_parent"</span></span><br><span class="line">  <span class="attribute">android:padding</span>=<span class="value">"4dp"</span></span><br><span class="line">  <span class="attribute">android:orientation</span>=<span class="value">"vertical"</span></span><br><span class="line">  <span class="attribute">tools:context</span>=<span class="value">".MainActivity"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">LinearLayout</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="定义自己的命名空间">定义自己的命名空间</h2><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">xmlns:</span>android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line"><span class="label">xmlns:</span>sally=<span class="string">"http://schemas.android.com/apk/res/自己的包名"</span></span><br></pre></td></tr></table></figure>
+<h2 id="布局文件中使用">布局文件中使用</h2><ul>
+<li>因为是一个标准的xml文件，如果自定义属性只为自己用，<code>id=&quot;myview&quot; text=&quot;自定义的属性&quot;</code> 这么写也是可以的，只是不标准，不规范罢了</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;com.sslei.MyView</span><br><span class="line">  android:id=<span class="string">"@+id/et_url"</span></span><br><span class="line">  android:layout_width=<span class="string">"0dp"</span></span><br><span class="line">  android:layout_weight=<span class="string">"3"</span></span><br><span class="line">  android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">  sally:<span class="built_in">test</span>_id=<span class="string">"@id/myview"</span></span><br><span class="line">  sally:<span class="built_in">test</span>_msg=<span class="string">"自定义属性"</span></span><br><span class="line">  sally:<span class="built_in">test</span>_bitmap=<span class="string">"@mipmap/ic_launcher.png"</span></span><br><span class="line">  /&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="在自定义控件的方法中，获得(自定义的)属性和值">在自定义控件的方法中，获得(自定义的)属性和值</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">MyView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">super</span>(context, attrs);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 获得处所有的属性值</span></span><br><span class="line">  <span class="keyword">int</span> count = attrs.getAttributeCount();</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;count; i++) &#123;</span><br><span class="line">    String name = attrs.getAttributeName(i);</span><br><span class="line">    String value = attrs.getAttributeValue(i);</span><br><span class="line">    System.out.println(<span class="string">"name: "</span> + name + <span class="string">"  value: "</span> + value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  System.out.println(<span class="string">"+++++++++++++++++ 华丽分割线 +++++++++++++++++++++++"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/*</span><br><span class="line">   * 对 AttributeSet 中的原始数据，按照图纸中的(R.styleable.MyView中的类型声明)创建出来的具体对象</span><br><span class="line">   * 获得处自定义的，使用了的属性值</span><br><span class="line">   */</span></span><br><span class="line">  TypeArray ta = context.obtainStyleAttributes(attrs, R.styleable.MyView);</span><br><span class="line">  <span class="keyword">int</span> taCount = ta.getIndexCount();</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;taCount; i++) &#123;</span><br><span class="line">    <span class="comment">// 控件的id值</span></span><br><span class="line">    <span class="keyword">int</span> index = ta.getIndex(i);</span><br><span class="line">    System.out.println(index);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span>(index) &#123;</span><br><span class="line">      <span class="keyword">case</span> R.styleable.MyView_test_id:</span><br><span class="line">        <span class="keyword">int</span> id = ta.getInt(index, -<span class="number">1</span>); <span class="comment">//获得属性值</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> R.styleable.MyView_test_msg:</span><br><span class="line">        String msg = ta.getString(index);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> R.styleable.MyView_test_bitmap:</span><br><span class="line">        Bitmap bmp = ta.getDrawable(index);</span><br><span class="line">        bmp.getResourceId(index, <span class="number">100</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+			
+            <section class="comment">
+<!-- 多说评论框 start -->
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+
+
+        </div>
+    </div>
+</article>
+
+
+    <footer id="footer">
+    <div id="bottom-tip">
+        senbaisang —— <small>cooooooooder</small>
+    </div>
+        <small>该博客由 <a href="https://hexo.io/" target="_blank">Hexo</a> 强力驱动，搭载 <a href="https://github.com/XadillaX/hexadillax" target="_blank">Hexadillax</a> 主题</small><br />
+        <small>&copy; 2015 Sally</small>
+    </footer>
+
+    
+
+
+</body>
+</html>
+
+
